@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>第01课｜Puzzle Game 项目构思表</title>
+  <style>
+    :root{--bg:#071827;--card:#0f2538;--ink:#eaf7ff;--muted:#9ec2d6;--blue:#5ee7ff;--yellow:#ffd166;--line:rgba(255,255,255,.14)}
+    *{box-sizing:border-box}body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;background:radial-gradient(circle at 20% 0%,#143e60 0,#071827 38%,#06131f 100%);color:var(--ink);line-height:1.65}.wrap{max-width:980px;margin:0 auto;padding:32px 18px 70px}.nav{position:sticky;top:0;background:rgba(7,24,39,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);z-index:10}.nav .wrap{padding:12px 18px;display:flex;justify-content:space-between;gap:12px;align-items:center}.brand{font-weight:900}.btn{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:8px 12px;text-decoration:none;color:var(--ink);background:rgba(255,255,255,.07)}h1{font-size:clamp(34px,5vw,58px);line-height:1.05;margin:18px 0}.lead{color:#cfeeff;font-size:19px}.card{border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.075);padding:22px;margin:16px 0}label{display:block;font-weight:850;margin:14px 0 8px}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:16px;background:#06131f;color:var(--ink);padding:12px 14px;font:inherit}textarea{min-height:96px;resize:vertical}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.primary{border:0;background:linear-gradient(90deg,#ff9f1c,var(--yellow));color:#321b00;border-radius:16px;padding:12px 18px;font-weight:900;cursor:pointer}.output{white-space:pre-wrap;background:#06131f;border:1px solid var(--line);border-radius:18px;padding:16px;color:#c6f6d5}@media(max-width:760px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="nav"><div class="wrap"><div class="brand">🧩 第01课项目构思表</div><a class="btn" href="lesson-01.html">返回互动课件</a></div></nav>
+  <main class="wrap">
+    <p class="btn">本页可直接填写并生成下节课 AI 提示词</p>
+    <h1>把 Puzzle Game 点子变成清楚的网页需求</h1>
+    <p class="lead">完成下面的问题后，你会得到一段可以复制给 AI 的提示词，用来生成第一版游戏网页。</p>
+
+    <section class="card">
+      <div class="grid">
+        <div><label for="gameName">游戏名称</label><input id="gameName" placeholder="例如：消失的钥匙 / 数字密码锁" /></div>
+        <div><label for="gameType">游戏类型</label><select id="gameType"><option>推理谜题 Mystery Puzzle</option><option>文字谜题 Word Puzzle</option><option>数字谜题 Number Puzzle</option><option>找规律 Pattern Puzzle</option><option>其他简单谜题</option></select></div>
+      </div>
+      <label for="story">游戏背景 / 主题</label><textarea id="story" placeholder="这个谜题发生在哪里？玩家为什么要解开它？"></textarea>
+      <label for="rule">玩家规则</label><textarea id="rule" placeholder="玩家需要看什么、点击什么或输入什么？怎样算赢？"></textarea>
+      <label for="feedback">反馈方式</label><textarea id="feedback" placeholder="答对显示什么？答错显示什么？是否有提示按钮？"></textarea>
+      <button class="primary" id="buildPrompt">生成 AI 提示词</button>
+    </section>
+
+    <section class="card">
+      <h2>生成结果</h2>
+      <div class="output" id="output">填写上面的构思表，然后点击“生成 AI 提示词”。</div>
+    </section>
+  </main>
+  <script>
+    const fields=['gameName','gameType','story','rule','feedback'];
+    document.getElementById('buildPrompt').addEventListener('click',()=>{
+      const data=Object.fromEntries(fields.map(id=>[id,document.getElementById(id).value.trim()]));
+      document.getElementById('output').textContent=`我是一名初二学生，正在制作一个 Puzzle Game 网页。\n游戏名称：${data.gameName || '请帮我取一个合适名称'}\n游戏类型：${data.gameType}\n游戏背景：${data.story || '请帮我设计一个简单背景'}\n玩家规则：${data.rule || '规则要简单，适合初学者实现'}\n反馈方式：${data.feedback || '需要正确、错误和提示反馈'}\n\n请帮我生成一个适合初学者阅读的单文件 HTML 网页，包含 HTML、CSS、JavaScript 和中文注释。要求页面清楚、有互动、不要太复杂，可以直接上传到 GitHub Pages。`;
+    });
+  </script>
+</body>
+</html>
