@@ -3,41 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>第01课｜Puzzle Game 项目构思表</title>
+  <title>第01课项目构思表｜Puzzle Game 网页</title>
   <style>
-    :root{--bg:#071827;--card:#0f2538;--ink:#eaf7ff;--muted:#9ec2d6;--blue:#5ee7ff;--yellow:#ffd166;--line:rgba(255,255,255,.14)}
-    *{box-sizing:border-box}body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;background:radial-gradient(circle at 20% 0%,#143e60 0,#071827 38%,#06131f 100%);color:var(--ink);line-height:1.65}.wrap{max-width:980px;margin:0 auto;padding:32px 18px 70px}.nav{position:sticky;top:0;background:rgba(7,24,39,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);z-index:10}.nav .wrap{padding:12px 18px;display:flex;justify-content:space-between;gap:12px;align-items:center}.brand{font-weight:900}.btn{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:8px 12px;text-decoration:none;color:var(--ink);background:rgba(255,255,255,.07)}h1{font-size:clamp(34px,5vw,58px);line-height:1.05;margin:18px 0}.lead{color:#cfeeff;font-size:19px}.card{border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.075);padding:22px;margin:16px 0}label{display:block;font-weight:850;margin:14px 0 8px}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:16px;background:#06131f;color:var(--ink);padding:12px 14px;font:inherit}textarea{min-height:96px;resize:vertical}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.primary{border:0;background:linear-gradient(90deg,#ff9f1c,var(--yellow));color:#321b00;border-radius:16px;padding:12px 18px;font-weight:900;cursor:pointer}.output{white-space:pre-wrap;background:#06131f;border:1px solid var(--line);border-radius:18px;padding:16px;color:#c6f6d5}@media(max-width:760px){.grid{grid-template-columns:1fr}}
+    :root{--bg:#f6f8ff;--ink:#152238;--muted:#667085;--blue:#2563eb;--purple:#7c3aed;--yellow:#f59e0b;--green:#16a34a;--card:#fff;--line:#d8e0f0;--r:22px}
+    *{box-sizing:border-box}body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;background:linear-gradient(135deg,#f6f8ff,#eef7ff);color:var(--ink);line-height:1.65}.wrap{max-width:980px;margin:0 auto;padding:28px 18px 70px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:18px}.badge{background:#dbeafe;color:#1d4ed8;border-radius:999px;padding:8px 12px;font-weight:800}.btn{border:0;background:var(--blue);color:white;border-radius:14px;padding:10px 14px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}.btn.secondary{background:#e5e7eb;color:#111827}.hero{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:28px;box-shadow:0 12px 40px rgba(37,99,235,.12)}h1{font-size:38px;line-height:1.12;margin:10px 0}.lead{color:var(--muted);font-size:18px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-top:16px}.field h2{margin:0 0 12px;font-size:22px}.hint{color:var(--muted);font-size:14px;margin-top:-4px}input[type=text],textarea,select{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fbfdff;color:var(--ink);outline:none}textarea{min-height:95px;resize:vertical}.checks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.checks label{border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:#fbfdff;display:flex;gap:8px;align-items:flex-start}.prompt{white-space:pre-wrap;background:#111827;color:#d1fae5;border-radius:18px;padding:16px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;margin-top:12px}.output{background:#fff7ed;border-color:#fed7aa}.bar{position:sticky;bottom:0;background:rgba(246,248,255,.92);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 0;margin-top:28px}.bar .inner{max-width:980px;margin:0 auto;padding:0 18px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}.small{font-size:13px;color:var(--muted)}@media(max-width:760px){.grid,.checks{grid-template-columns:1fr}h1{font-size:30px}}@media print{.bar,.noPrint{display:none!important}body{background:white}.wrap{max-width:none;padding:0}.hero,.field{box-shadow:none;break-inside:avoid}.field{margin-top:10px}textarea,input,select{border:0;border-bottom:1px solid #aaa;border-radius:0}.prompt{color:#111;background:#f3f4f6}}
   </style>
 </head>
 <body>
-  <nav class="nav"><div class="wrap"><div class="brand">🧩 第01课项目构思表</div><a class="btn" href="lesson-01.html">返回互动课件</a></div></nav>
   <main class="wrap">
-    <p class="btn">本页可直接填写并生成下节课 AI 提示词</p>
-    <h1>把 Puzzle Game 点子变成清楚的网页需求</h1>
-    <p class="lead">完成下面的问题后，你会得到一段可以复制给 AI 的提示词，用来生成第一版游戏网页。</p>
+    <div class="top noPrint"><span class="badge">第01课独立学习单</span><div><a class="btn secondary" href="lesson-01.html">返回课件</a> <button class="btn secondary" onclick="window.print()">打印</button> <button class="btn" id="saveBtn">保存到本机浏览器</button></div></div>
+    <section class="hero"><p class="badge">AI × Web Design · Puzzle Game Project Brief</p><h1>Puzzle Game 网页项目构思表</h1><p class="lead">这张表的作用是把“我想做一个游戏”变成“AI 和我都能理解的网页需求”。下节课会用这张表生成第一版网页代码。</p></section>
 
-    <section class="card">
-      <div class="grid">
-        <div><label for="gameName">游戏名称</label><input id="gameName" placeholder="例如：消失的钥匙 / 数字密码锁" /></div>
-        <div><label for="gameType">游戏类型</label><select id="gameType"><option>推理谜题 Mystery Puzzle</option><option>文字谜题 Word Puzzle</option><option>数字谜题 Number Puzzle</option><option>找规律 Pattern Puzzle</option><option>其他简单谜题</option></select></div>
-      </div>
-      <label for="story">游戏背景 / 主题</label><textarea id="story" placeholder="这个谜题发生在哪里？玩家为什么要解开它？"></textarea>
-      <label for="rule">玩家规则</label><textarea id="rule" placeholder="玩家需要看什么、点击什么或输入什么？怎样算赢？"></textarea>
-      <label for="feedback">反馈方式</label><textarea id="feedback" placeholder="答对显示什么？答错显示什么？是否有提示按钮？"></textarea>
-      <button class="primary" id="buildPrompt">生成 AI 提示词</button>
-    </section>
+    <section class="grid"><div class="field"><h2>1. 我的游戏名称</h2><input data-save id="gameName" type="text" placeholder="例如：图书馆失踪案 / Number Lock / Word Detective"></div><div class="field"><h2>2. 游戏类型</h2><select data-save id="gameType"><option value="">请选择</option><option>文字谜题 Word Puzzle</option><option>数独 / 数字谜题 Number Puzzle</option><option>逻辑推理 Logic Puzzle</option><option>Murdle-style 神秘推理</option><option>其他</option></select></div></section>
 
-    <section class="card">
-      <h2>生成结果</h2>
-      <div class="output" id="output">填写上面的构思表，然后点击“生成 AI 提示词”。</div>
-    </section>
+    <section class="field"><h2>3. 游戏背景或主题</h2><p class="hint">用 2–3 句话说明故事发生在哪里，玩家为什么要解谜。</p><textarea data-save id="theme" placeholder="例如：故事发生在学校图书馆，一本神秘的书不见了。玩家需要根据线索判断谁拿走了书。"></textarea></section>
+
+    <section class="field"><h2>4. 玩家需要做什么？</h2><textarea data-save id="task" placeholder="例如：阅读3条线索，在3个嫌疑人中选出真正的答案，并点击提交。"></textarea></section>
+
+    <section class="grid"><div class="field"><h2>5. 玩家如何提交答案？</h2><div class="checks"><label><input data-save type="checkbox" name="submit" value="输入文字">输入文字</label><label><input data-save type="checkbox" name="submit" value="点击选项">点击选项</label><label><input data-save type="checkbox" name="submit" value="下拉菜单">下拉菜单</label><label><input data-save type="checkbox" name="submit" value="其他">其他</label></div></div><div class="field"><h2>6. 网页风格</h2><div class="checks"><label><input data-save type="checkbox" name="style" value="科技风">科技风</label><label><input data-save type="checkbox" name="style" value="侦探风">侦探风</label><label><input data-save type="checkbox" name="style" value="可爱风">可爱风</label><label><input data-save type="checkbox" name="style" value="神秘风">神秘风</label></div></div></section>
+
+    <section class="field"><h2>7. 我的谜题内容 / 线索</h2><p class="hint">至少写 3 条。可以是文字线索、数字规律、候选答案或关卡题目。</p><textarea data-save id="clues" placeholder="线索1：
+线索2：
+线索3："></textarea></section>
+
+    <section class="grid"><div class="field"><h2>8. 正确答案</h2><textarea data-save id="answer" placeholder="写出正确答案，以及为什么这是正确答案。"></textarea></div><div class="field"><h2>9. 我希望 AI 帮我做什么？</h2><textarea data-save id="aiHelp" placeholder="例如：帮我生成网页初稿、设计页面颜色、把线索变成按钮、解释 JavaScript 判断逻辑。"></textarea></div></section>
+
+    <section class="field output"><h2>10. 自动生成我的 AI 提示词</h2><p class="hint">填完上面的内容后，点击按钮生成下节课可直接使用的 prompt。</p><button class="btn" id="makePrompt">生成提示词</button> <button class="btn secondary" id="copyPrompt">复制提示词</button><div class="prompt" id="promptBox">这里会显示你的 AI 提示词。</div></section>
+
+    <section class="field"><h2>下课前自查</h2><div class="checks"><label><input type="checkbox">我已经确定游戏类型</label><label><input type="checkbox">我已经写出游戏规则</label><label><input type="checkbox">我至少有3条谜题/线索</label><label><input type="checkbox">我知道玩家如何提交答案</label><label><input type="checkbox">我写出了正确答案</label><label><input type="checkbox">我能用2–3句话介绍我的项目</label></div></section>
   </main>
+  <div class="bar noPrint"><div class="inner"><span class="small">内容会保存在当前浏览器 localStorage 中。</span><button class="btn secondary" id="clearBtn">清空</button><button class="btn" onclick="window.print()">打印 / 保存为 PDF</button></div></div>
   <script>
-    const fields=['gameName','gameType','story','rule','feedback'];
-    document.getElementById('buildPrompt').addEventListener('click',()=>{
-      const data=Object.fromEntries(fields.map(id=>[id,document.getElementById(id).value.trim()]));
-      document.getElementById('output').textContent=`我是一名初二学生，正在制作一个 Puzzle Game 网页。\n游戏名称：${data.gameName || '请帮我取一个合适名称'}\n游戏类型：${data.gameType}\n游戏背景：${data.story || '请帮我设计一个简单背景'}\n玩家规则：${data.rule || '规则要简单，适合初学者实现'}\n反馈方式：${data.feedback || '需要正确、错误和提示反馈'}\n\n请帮我生成一个适合初学者阅读的单文件 HTML 网页，包含 HTML、CSS、JavaScript 和中文注释。要求页面清楚、有互动、不要太复杂，可以直接上传到 GitHub Pages。`;
-    });
+    const key='lesson01ProjectBrief';const els=[...document.querySelectorAll('[data-save]')];
+    function collect(){const data={};els.forEach((el,i)=>{const k=el.id||el.name+'_'+el.value;if(el.type==='checkbox')data[k]=el.checked;else data[k]=el.value});return data}
+    function apply(data){els.forEach(el=>{const k=el.id||el.name+'_'+el.value;if(k in data){if(el.type==='checkbox')el.checked=data[k];else el.value=data[k]}})}
+    const saved=localStorage.getItem(key);if(saved)apply(JSON.parse(saved));
+    document.getElementById('saveBtn').onclick=()=>{localStorage.setItem(key,JSON.stringify(collect()));alert('已保存到当前浏览器。')};
+    document.getElementById('clearBtn').onclick=()=>{if(confirm('确定清空本页填写内容吗？')){localStorage.removeItem(key);location.reload()}};
+    function values(name){return [...document.querySelectorAll('input[name='+name+']:checked')].map(x=>x.value).join('、')||'__________'}
+    function val(id){return document.getElementById(id).value.trim()||'__________'}
+    document.getElementById('makePrompt').onclick=()=>{const prompt=`我是一名初二学生，正在制作一个 Puzzle Game 网页。\n\n我的游戏名称：${val('gameName')}\n游戏类型：${val('gameType')}\n游戏背景或主题：${val('theme')}\n玩家需要做什么：${val('task')}\n玩家提交答案的方式：${values('submit')}\n网页风格：${values('style')}\n谜题内容或线索：\n${val('clues')}\n正确答案与解释：\n${val('answer')}\n\n请帮我生成一个简单的 HTML、CSS、JavaScript 网页初稿。\n要求：\n1. 适合初二学生理解；\n2. 所有代码放在一个 index.html 文件里；\n3. 包含游戏标题、规则说明、谜题内容、答案输入/选择、提交按钮、正确/错误反馈；\n4. 代码尽量简单，并加入中文注释；\n5. 页面可以直接上传到 GitHub Pages。`;document.getElementById('promptBox').textContent=prompt;localStorage.setItem(key,JSON.stringify(collect()))};
+    document.getElementById('copyPrompt').onclick=()=>{navigator.clipboard.writeText(document.getElementById('promptBox').textContent);alert('提示词已复制。')};
   </script>
 </body>
 </html>
