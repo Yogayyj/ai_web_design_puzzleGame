@@ -5,37 +5,553 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>第03课｜让谜题动起来：输入、判断与反馈</title>
   <style>
-    :root{--bg:#0f172a;--card:#111827;--ink:#e5e7eb;--muted:#94a3b8;--brand:#38bdf8;--brand2:#a78bfa;--accent:#facc15;--ok:#34d399;--danger:#fb7185;--line:rgba(255,255,255,.12);--soft:rgba(255,255,255,.07)}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:radial-gradient(circle at 20% 0%,rgba(56,189,248,.25),transparent 30%),radial-gradient(circle at 80% 10%,rgba(167,139,250,.22),transparent 28%),var(--bg);color:var(--ink);line-height:1.65}a{color:inherit}.wrap{max-width:1160px;margin:0 auto;padding:0 20px}.nav{position:sticky;top:0;z-index:20;background:rgba(15,23,42,.76);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}.nav .wrap{display:flex;justify-content:space-between;align-items:center;padding:12px 20px}.logo{font-weight:800}.logo span{color:var(--brand)}.links{display:flex;gap:18px;font-size:14px;color:var(--muted)}.links a{text-decoration:none}.links a:hover{color:white}.hero{padding:70px 0 36px}.badge{display:inline-flex;gap:8px;align-items:center;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--soft);color:#cbd5e1;font-size:14px}.hero h1{font-size:clamp(36px,6vw,66px);line-height:1.05;margin:18px 0 18px;letter-spacing:-2px}.grad{background:linear-gradient(90deg,var(--brand),var(--brand2),var(--accent));-webkit-background-clip:text;color:transparent}.lead{font-size:19px;color:#cbd5e1;max-width:850px}.section{padding:34px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{border:1px solid var(--line);border-radius:24px;background:rgba(17,24,39,.76);padding:22px;box-shadow:0 10px 34px rgba(0,0,0,.16)}.card h2,.card h3{margin-top:0}.tag{display:inline-block;font-size:12px;padding:4px 9px;border-radius:999px;background:rgba(56,189,248,.12);color:#bae6fd;border:1px solid rgba(56,189,248,.25);margin-bottom:12px}.list{padding-left:18px;color:#dbeafe}.list li{margin:8px 0}.prompt{background:#020617;border:1px solid var(--line);border-radius:18px;padding:16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#d1fae5;white-space:pre-wrap}.btn{display:inline-block;padding:12px 18px;border-radius:14px;text-decoration:none;font-weight:700;border:1px solid var(--line);background:var(--soft);margin-right:10px}.btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#020617;border:0}.footer{padding:36px 0 60px;color:var(--muted);text-align:center}@media(max-width:860px){.grid{grid-template-columns:1fr}.links{display:none}}
-
+    :root{
+      --bg:#071827; --card:#0f2538; --ink:#eaf7ff; --muted:#9ec2d6;
+      --blue:#5ee7ff; --yellow:#ffd166; --orange:#ff9f1c; --green:#7ae582; --pink:#ff6bcb; --purple:#a78bfa;
+      --line:rgba(255,255,255,.14); --shadow:0 20px 60px rgba(0,0,0,.35); --radius:28px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;background:radial-gradient(circle at 20% 0%,#143e60 0,#071827 38%,#06131f 100%);color:var(--ink);line-height:1.65;}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:40px 40px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.8),rgba(0,0,0,.15));}
+    a{color:inherit}.wrap{max-width:1180px;margin:0 auto;padding:28px 22px 90px;position:relative}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;position:sticky;top:0;z-index:20;padding:12px 0;backdrop-filter:blur(14px)}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.3px}.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,var(--yellow),var(--orange));display:grid;place-items:center;color:#081826;box-shadow:0 10px 30px rgba(255,159,28,.28);font-size:24px}.pill{border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--ink);border-radius:999px;padding:9px 14px;text-decoration:none;font-weight:700;font-size:14px}.nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.nav .pill:hover{border-color:var(--blue);box-shadow:0 0 0 3px rgba(94,231,255,.08)}
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:stretch;margin-top:10px}.panel{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.055));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.hero-main{padding:42px;position:relative}.eyebrow{display:inline-flex;gap:8px;align-items:center;background:rgba(94,231,255,.12);border:1px solid rgba(94,231,255,.32);color:var(--blue);padding:8px 13px;border-radius:999px;font-weight:900;margin-bottom:18px}.hero h1{font-size:clamp(36px,6vw,76px);line-height:1.02;margin:0 0 18px;font-weight:1000;letter-spacing:-2px}.grad{background:linear-gradient(90deg,var(--blue),var(--yellow),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}.lead{font-size:clamp(17px,2vw,24px);color:#c9e9f7;max-width:760px;margin:0 0 26px}.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}.btn{border:0;border-radius:16px;padding:13px 18px;font-weight:900;cursor:pointer;color:#081826;background:var(--yellow);box-shadow:0 12px 24px rgba(255,209,102,.22);text-decoration:none;display:inline-flex;gap:8px;align-items:center}.btn.secondary{background:rgba(255,255,255,.08);color:var(--ink);border:1px solid var(--line);box-shadow:none}.btn.green{background:var(--green)}.btn.blue{background:var(--blue)}.btn.pink{background:var(--pink);color:white}.hero-side{padding:28px;display:grid;gap:14px}.stat{padding:18px;border-radius:22px;background:rgba(0,0,0,.18);border:1px solid var(--line)}.stat b{font-size:28px;color:var(--yellow)}.stat span{display:block;color:var(--muted);font-weight:700}.section{margin-top:28px;padding:28px}.section h2{font-size:clamp(26px,3vw,40px);line-height:1.15;margin:0 0 16px}.section-intro{color:var(--muted);font-size:18px;margin:0 0 22px}.grid{display:grid;gap:16px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}.card{padding:20px;border-radius:22px;background:rgba(255,255,255,.07);border:1px solid var(--line)}.card h3{margin:0 0 10px;font-size:21px}.card p{margin:0;color:#c2dcec}.tag{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:900;background:rgba(255,255,255,.10);border:1px solid var(--line);color:var(--yellow);margin-bottom:10px}.teacher{border-left:6px solid var(--yellow);background:rgba(255,209,102,.08)}.student{border-left:6px solid var(--blue);background:rgba(94,231,255,.08)}.warning{border-left:6px solid var(--orange);background:rgba(255,159,28,.08)}
+    details{border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.055);padding:14px 18px;margin:12px 0}summary{cursor:pointer;font-weight:900;color:var(--yellow)}details p{color:#cbe2ee}.codebox{position:relative;margin-top:12px}.codebox pre{white-space:pre-wrap;word-break:break-word;background:#07111c;border:1px solid rgba(94,231,255,.18);border-radius:18px;padding:18px;color:#d9fbff;overflow:auto;max-height:420px}.copy{position:absolute;top:10px;right:10px;border:1px solid var(--line);background:rgba(255,255,255,.12);color:var(--ink);border-radius:12px;padding:7px 10px;cursor:pointer;font-weight:800}.mini{font-size:14px;color:var(--muted)}
+    .slide-nav{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:30;background:rgba(7,24,39,.8);border:1px solid var(--line);border-radius:999px;padding:8px;backdrop-filter:blur(14px)}.slide-nav button{border:0;border-radius:999px;padding:10px 13px;font-weight:1000;cursor:pointer}.slide-nav .ghost{background:rgba(255,255,255,.1);color:var(--ink)}.slide-nav .hot{background:var(--yellow);color:#081826}.slide{scroll-margin-top:86px;min-height:62vh}
+    .timer{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.time{font-size:42px;font-weight:1000;color:var(--yellow);font-variant-numeric:tabular-nums}.timer button{border:1px solid var(--line);background:rgba(255,255,255,.1);color:var(--ink);border-radius:12px;padding:9px 12px;cursor:pointer;font-weight:900}
+    .checklist label{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:15px;background:rgba(255,255,255,.05);margin:8px 0;border:1px solid var(--line)}.checklist input{transform:scale(1.3);margin-top:5px}.badgeline{display:flex;gap:8px;flex-wrap:wrap}.badge{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.09);border:1px solid var(--line);font-weight:800;color:#d8f7ff}.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:rgba(255,255,255,.1);border:1px solid var(--line);border-radius:8px;padding:2px 6px;color:var(--yellow)}
+    table{border-collapse:collapse;width:100%;overflow:hidden;border-radius:18px}td,th{border:1px solid var(--line);padding:12px;text-align:left}th{background:rgba(255,255,255,.1);color:var(--yellow)}td{color:#dceff8}.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}.flow .step{padding:16px;border-radius:20px;background:rgba(255,255,255,.07);border:1px solid var(--line);text-align:center}.step-num{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;margin:0 auto 8px;background:var(--blue);color:#06131f;font-weight:1000}
+    .demo-site{background:#f7fbff;color:#172033;border-radius:22px;overflow:hidden;border:1px solid rgba(255,255,255,.3)}.demo-header{background:#24166b;color:white;padding:22px;text-align:center}.demo-body{padding:22px}.demo-card{background:white;border-radius:18px;border:2px solid #d9e4ff;padding:18px;margin:12px 0;box-shadow:0 8px 18px rgba(48,87,227,.12)}.demo-card button{background:#ffbf3c;border:0;border-radius:12px;padding:10px 14px;font-weight:900}.demo-input{padding:10px;border-radius:10px;border:2px solid #c9d7ff;min-width:200px}.result{font-weight:900;margin-top:10px;color:#24166b;min-height:28px}
+    .editor-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}.editor-tabs button{border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.08);color:var(--ink);padding:9px 14px;font-weight:900;cursor:pointer}.editor-tabs button.active{background:var(--yellow);color:#081826}.editor{display:grid;grid-template-columns:1fr 1fr;gap:16px}.editor textarea{width:100%;min-height:460px;border-radius:18px;background:#07111c;color:#d9fbff;border:1px solid rgba(94,231,255,.2);padding:16px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;line-height:1.5;tab-size:2}.preview{border-radius:18px;border:1px solid var(--line);background:white;min-height:460px;overflow:hidden}.preview iframe{width:100%;height:560px;border:0;background:white}.editor-actions{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.hint{font-size:14px;color:#bde8f5}.challenge-list{counter-reset:ch}.challenge{position:relative;padding-left:54px}.challenge:before{counter-increment:ch;content:counter(ch);position:absolute;left:18px;top:18px;width:26px;height:26px;border-radius:50%;background:var(--yellow);color:#081826;font-weight:1000;display:grid;place-items:center}.split-note{display:grid;grid-template-columns:1fr 1fr;gap:14px}.token{display:inline-block;border-radius:8px;padding:2px 7px;background:rgba(94,231,255,.12);border:1px solid rgba(94,231,255,.25);color:#d9fbff;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.print-note{display:none}
+    @media (max-width:900px){.hero,.grid.two,.grid.three,.grid.four,.editor,.flow,.split-note{grid-template-columns:1fr}.topbar{position:static}.nav{justify-content:flex-start}.hero-main{padding:28px}.slide-nav{left:10px;right:10px;justify-content:center}.section{padding:22px}}
+    @media print{body{background:white;color:#111}.topbar,.slide-nav,.hero-actions,.timer,.copy,.editor,.btn,.editor-tabs,.editor-actions{display:none!important}.panel,.card,details{box-shadow:none;border:1px solid #111;background:white;color:#111}.section{break-inside:avoid}.print-note{display:block}}
   </style>
 </head>
 <body>
-  <nav class="nav"><div class="wrap"><div class="logo">AI <span>Puzzle Game</span> Lesson 03</div><div class="links"><a href="index.html">课程主页</a><a href="lesson-02.html">上一课</a><a href="lesson-04.html">下一课</a></div></div></nav>
-  <header class="hero wrap">
-    <div class="badge">第 03 课 · 40–45 分钟 · AI协作学习单</div>
-    <h1><span class="grad">让谜题动起来：输入、判断与反馈</span></h1>
-    <p class="lead">实现“输入答案 → 点击检查 → 显示结果”的基础交互。</p>
-    <p><a class="btn primary" href="#tasks">开始本课任务</a><a class="btn" href="index.html#lessons">返回6课时总览</a></p>
-  </header>
-  <main>
-    <section class="section wrap" id="tasks">
-      <div class="grid">
-        <article class="card"><span class="tag">课堂流程</span><h2>本课做什么？</h2><ul class="list"><li>⚡ 制作交互原型</li><li>读取输入框内容并判断答案</li><li>显示正确、错误或提示反馈</li></ul></article>
-        <article class="card"><span class="tag">学习重点</span><h2>教师提醒</h2><ul class="list"><li>变量保存答案和玩家输入</li><li>事件监听按钮点击</li><li>if 判断决定显示什么反馈</li></ul></article>
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand"><div class="logo">⚡</div><div>AI × Web Design<br><span class="mini">Puzzle Game Web Creation Camp</span></div></div>
+      <nav class="nav">
+        <a class="pill" href="lesson-01.html">第1课</a>
+        <a class="pill" href="lesson-02.html">← 第2课</a>
+        <a class="pill" href="#logic">交互逻辑</a>
+        <a class="pill" href="#editor">模拟写码</a>
+        <a class="pill" href="#homework">作业</a>
+      </nav>
+    </header>
+
+    <section class="hero panel slide" id="top">
+      <div class="hero-main">
+        <div class="eyebrow">第03课 · JavaScript 交互入门</div>
+        <h1>让谜题动起来：<br><span class="grad">输入、判断与反馈</span></h1>
+        <p class="lead">第2课我们已经有了网页初稿。本节课要让网页真正“会玩”：玩家输入答案，点击按钮，网页判断对错，并给出清楚反馈。</p>
+        <div class="hero-actions">
+          <a class="btn" href="#case">进入案例</a>
+          <a class="btn secondary" href="#logic">看懂交互逻辑</a>
+          <a class="btn green" href="#editor">打开模拟写码</a>
+        </div>
+      </div>
+      <aside class="hero-side">
+        <div class="stat"><b>45 min</b><span>建议课时</span></div>
+        <div class="stat"><b>input</b><span>玩家输入答案</span></div>
+        <div class="stat"><b>if</b><span>判断正确或错误</span></div>
+        <div class="stat"><b>feedback</b><span>显示结果与提示</span></div>
+      </aside>
+    </section>
+
+    <section class="panel section slide" id="objectives">
+      <h2>本节课目标</h2>
+      <p class="section-intro">第三节课的重点不是让页面更好看，而是让页面有“反应”。</p>
+      <div class="grid three">
+        <div class="card"><span class="tag">知识目标</span><h3>理解网页交互三步</h3><p>输入答案 → 点击按钮 → 判断并显示反馈。</p></div>
+        <div class="card"><span class="tag">技能目标</span><h3>写出简单 JavaScript</h3><p>会使用 <span class="token">input.value</span>、<span class="token">if</span>、<span class="token">textContent</span>。</p></div>
+        <div class="card"><span class="tag">项目目标</span><h3>完成一个可玩的谜题</h3><p>至少有一个题目、一个输入框、一个判断按钮和一个反馈区域。</p></div>
       </div>
     </section>
-    <section class="section wrap">
-      <div class="grid">
-        <article class="card"><span class="tag">学生产出</span><h2>提交物</h2><p>完成本课页面或学习单，并能用 2–3 句话说明自己修改了什么、为什么这样设计。</p></article>
-        <article class="card"><span class="tag">检查清单</span><h2>下课前确认</h2><ul class="list"><li>文件已保存，命名清楚。</li><li>页面能在浏览器中打开。</li><li>遇到问题时记录了错误现象和修改办法。</li></ul></article>
+
+    <section class="panel section slide" id="review">
+      <h2>导入：网页什么时候才算“游戏”？</h2>
+      <p class="section-intro">如果网页只有题目和文字，它更像海报；当玩家可以输入、点击，并得到反馈，它才开始像小游戏。</p>
+      <div class="grid two">
+        <div class="card teacher">
+          <h3>教师提问</h3>
+          <p>一个 Puzzle Game 网页至少要让玩家完成什么动作？</p>
+          <div class="badgeline"><span class="badge">阅读题目</span><span class="badge">输入答案</span><span class="badge">点击提交</span><span class="badge">得到反馈</span><span class="badge">继续尝试</span></div>
+        </div>
+        <div class="card student">
+          <h3>学生快速判断</h3>
+          <div class="checklist">
+            <label><input type="checkbox"> 我知道输入框是让玩家填写答案的地方。</label>
+            <label><input type="checkbox"> 我知道按钮可以触发一个动作。</label>
+            <label><input type="checkbox"> 我知道反馈区要告诉玩家正确或错误。</label>
+            <label><input type="checkbox"> 我知道答案判断需要 JavaScript。</label>
+          </div>
+        </div>
       </div>
     </section>
-    <section class="section wrap">
-      <h2>本课 AI 提示词</h2>
-      <div class="prompt">请帮我写一个简单的检查答案功能：玩家输入答案后点击按钮，网页显示正确或错误，并加入中文注释。</div>
+
+    <section class="panel section slide" id="case">
+      <h2>课堂案例：Library Password Puzzle</h2>
+      <p class="section-intro">案例非常小，但包含一个完整网页游戏的核心：题目、输入、按钮、判断、反馈。</p>
+      <div class="grid two">
+        <div class="card">
+          <h3>案例设定</h3>
+          <table>
+            <tr><th>项目</th><th>内容</th></tr>
+            <tr><td>游戏名称</td><td>Library Password Puzzle</td></tr>
+            <tr><td>背景</td><td>图书馆里的盒子被锁住，需要输入秘密单词。</td></tr>
+            <tr><td>线索</td><td>“Books live here.”</td></tr>
+            <tr><td>正确答案</td><td>library</td></tr>
+            <tr><td>交互目标</td><td>输入 library → 显示正确；其他答案 → 显示错误提示。</td></tr>
+          </table>
+        </div>
+        <div class="demo-site">
+          <div class="demo-header"><h3 style="margin:0;font-size:28px">Library Password Puzzle</h3><p style="margin:6px 0 0">Can you unlock the mystery box?</p></div>
+          <div class="demo-body">
+            <div class="demo-card"><b>Clue</b><p>Books live here. What is the secret word?</p></div>
+            <input id="liveAnswer" class="demo-input" placeholder="Type your answer" /> <button onclick="miniCheck()">Check</button>
+            <div id="liveResult" class="result">等待玩家输入答案……</div>
+          </div>
+        </div>
+      </div>
     </section>
-  </main>
-  <footer class="footer wrap"><a class="btn" href="lesson-02.html">← 上一课</a><a class="btn primary" href="lesson-04.html">下一课 →</a><p>核心理念：先表达设计想法，再请 AI 帮忙生成、解释和修改。</p></footer>
+
+    <section class="panel section slide" id="logic">
+      <h2>核心逻辑：输入 → 判断 → 反馈</h2>
+      <p class="section-intro">所有简单 Puzzle Game 都可以先用这个模型做出来。</p>
+      <div class="flow">
+        <div class="step"><div class="step-num">1</div><b>玩家阅读题目</b><br><span class="mini">clue / question</span></div>
+        <div class="step"><div class="step-num">2</div><b>玩家输入答案</b><br><span class="mini">input</span></div>
+        <div class="step"><div class="step-num">3</div><b>点击按钮</b><br><span class="mini">onclick</span></div>
+        <div class="step"><div class="step-num">4</div><b>程序判断</b><br><span class="mini">if / else</span></div>
+        <div class="step"><div class="step-num">5</div><b>显示反馈</b><br><span class="mini">Correct / Try again</span></div>
+      </div>
+      <details open>
+        <summary>最小可用 JavaScript 代码</summary>
+        <div class="codebox"><button class="copy" data-copy="js-basic">复制</button><pre id="js-basic">function checkAnswer() {
+  let answer = document.getElementById("answerInput").value;
+  let result = document.getElementById("result");
+
+  if (answer === "library") {
+    result.textContent = "Correct! You unlocked the box.";
+  } else {
+    result.textContent = "Try again. Read the clue carefully.";
+  }
+}</pre></div>
+      </details>
+    </section>
+
+    <section class="panel section slide" id="concepts">
+      <h2>JavaScript 关键概念</h2>
+      <p class="section-intro">学生不需要一次学完 JavaScript，只要先掌握本课的 4 个关键词。</p>
+      <div class="grid four">
+        <div class="card"><span class="tag">1</span><h3>id</h3><p>给元素取名字，方便 JavaScript 找到它。比如 <span class="token">id="answerInput"</span>。</p></div>
+        <div class="card"><span class="tag">2</span><h3>value</h3><p>读取输入框里的内容。比如 <span class="token">input.value</span>。</p></div>
+        <div class="card"><span class="tag">3</span><h3>if / else</h3><p>如果答案正确，就做一件事；否则做另一件事。</p></div>
+        <div class="card"><span class="tag">4</span><h3>textContent</h3><p>修改页面上的文字，用来显示反馈。</p></div>
+      </div>
+      <div class="card warning" style="margin-top:16px"><h3>注意：大小写和空格会影响判断</h3><p>如果玩家输入 <span class="token">Library</span> 或 <span class="token"> library </span>，可能和 <span class="token">library</span> 不完全相同。后面可以用 <span class="token">toLowerCase()</span> 和 <span class="token">trim()</span> 解决。</p></div>
+    </section>
+
+    <section class="panel section slide" id="ai-prompt">
+      <h2>AI 协作：让 AI 帮你生成交互代码</h2>
+      <p class="section-intro">本节课的提示词要比第2课更具体：不是“做一个网页”，而是“加输入框、按钮和判断反馈”。</p>
+      <div class="codebox"><button class="copy" data-copy="prompt1">复制</button><pre id="prompt1">我正在制作一个 Puzzle Game 网页。请帮我在现有 HTML 中加入简单的 JavaScript 交互。
+要求：
+1. 页面中有一个输入框，让玩家输入答案；
+2. 有一个按钮，点击后检查答案；
+3. 如果答案正确，显示“Correct! You solved the puzzle!”；
+4. 如果答案错误，显示“Try again. Look at the clue carefully.”；
+5. 请使用初学者能看懂的代码，并用注释解释每一步；
+6. 正确答案是：library。</pre></div>
+      <details>
+        <summary>教师提醒：不要让 AI 一次生成太复杂</summary>
+        <p>本节课不要要求 AI 加计分、关卡、动画、排行榜。先让学生完成一个可以运行的判断功能。</p>
+      </details>
+    </section>
+
+    <section class="panel section slide" id="editor">
+      <h2>学生模拟写码界面</h2>
+      <p class="section-intro">左边改代码，点击“运行预览”，右边立即看到效果。本课重点练习 JavaScript：输入、判断、反馈。</p>
+      <div class="editor-tabs">
+        <button class="active" onclick="loadTemplate('library', event)">案例：图书馆密码</button>
+        <button onclick="loadTemplate('number', event)">数字答案谜题</button>
+        <button onclick="loadTemplate('choice', event)">选择型谜题</button>
+        <button onclick="loadTemplate('blank', event)">空白练习</button>
+      </div>
+      <div class="editor-actions">
+        <button class="btn blue" onclick="runCode()">▶ 运行预览</button>
+        <button class="btn secondary" onclick="saveCode()">保存到浏览器</button>
+        <button class="btn secondary" onclick="restoreCode()">读取保存</button>
+        <button class="btn secondary" onclick="downloadCode()">下载 HTML</button>
+      </div>
+      <div class="editor">
+        <div>
+          <h3>代码区</h3>
+          <textarea id="codeArea" spellcheck="false"></textarea>
+          <p class="hint">建议顺序：先改正确答案 → 再改反馈文字 → 再改线索 → 最后改样式。</p>
+        </div>
+        <div>
+          <h3>网页预览</h3>
+          <div class="preview"><iframe id="previewFrame" title="网页预览"></iframe></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel section slide" id="tasks">
+      <h2>课堂练习任务：让你的谜题真正可玩</h2>
+      <p class="section-intro">每完成一项就运行一次。目标不是写很多代码，而是能解释每一行代码在做什么。</p>
+      <div class="grid two challenge-list">
+        <div class="card challenge"><h3>改正确答案</h3><p>找到 <span class="token">correctAnswer</span>，把答案改成你自己的谜题答案。</p></div>
+        <div class="card challenge"><h3>改线索</h3><p>修改 <span class="token">Clue</span> 部分，让线索能推导出你的答案。</p></div>
+        <div class="card challenge"><h3>改正确反馈</h3><p>让玩家答对时看到更有成就感的反馈。</p></div>
+        <div class="card challenge"><h3>改错误反馈</h3><p>答错时不要只说 wrong，要给出一点点提示。</p></div>
+        <div class="card challenge"><h3>解决大小写问题</h3><p>观察代码中的 <span class="token">toLowerCase()</span> 和 <span class="token">trim()</span>，解释它们的作用。</p></div>
+        <div class="card challenge"><h3>加一个 Hint 按钮</h3><p>挑战任务：增加一个按钮，点击后显示额外提示。</p></div>
+      </div>
+    </section>
+
+    <section class="panel section slide" id="debug">
+      <h2>Debug：为什么按钮点了没反应？</h2>
+      <p class="section-intro">交互代码最常见的问题不是“完全不会”，而是名字对不上、符号漏掉。</p>
+      <div class="grid three">
+        <div class="card"><h3>1. id 名字是否一致？</h3><p><span class="token">id="answerInput"</span> 和 <span class="token">getElementById("answerInput")</span> 必须一模一样。</p></div>
+        <div class="card"><h3>2. 函数名是否一致？</h3><p>按钮里的 <span class="token">onclick="checkAnswer()"</span> 必须和函数名一样。</p></div>
+        <div class="card"><h3>3. 引号和括号是否完整？</h3><p>少一个 <span class="token">"</span>、<span class="token">)</span> 或 <span class="token">}</span>，代码都可能停止运行。</p></div>
+      </div>
+      <details open>
+        <summary>给 AI 的 Debug 提示词</summary>
+        <div class="codebox"><button class="copy" data-copy="debugPrompt">复制</button><pre id="debugPrompt">我的 HTML/JavaScript 代码中，点击按钮后没有反馈。请帮我检查：
+1. input 的 id 和 getElementById 是否一致；
+2. button 的 onclick 和 function 名字是否一致；
+3. if/else 的括号是否完整；
+4. 是否有拼写错误。
+请用初学者能理解的方式指出问题，不要重写整个项目。</pre></div>
+      </details>
+    </section>
+
+    <section class="panel section slide" id="timer">
+      <h2>课堂时间管理</h2>
+      <p class="section-intro">建议把练习分成两个阶段：先让全班完成基础判断，再让学生改成自己的谜题。</p>
+      <div class="timer">
+        <div class="time" id="timeDisplay">08:00</div>
+        <button onclick="setTimer(5)">5分钟</button>
+        <button onclick="setTimer(8)">8分钟</button>
+        <button onclick="setTimer(12)">12分钟</button>
+        <button onclick="startTimer()">开始</button>
+        <button onclick="pauseTimer()">暂停</button>
+        <button onclick="resetTimer()">重置</button>
+      </div>
+    </section>
+
+    <section class="panel section slide" id="checklist">
+      <h2>下课前检查清单</h2>
+      <p class="section-intro">这一节课结束时，学生至少要完成一个可以判断答案的谜题网页。</p>
+      <div class="checklist">
+        <label><input type="checkbox"> 我的网页有一个清楚的问题或线索。</label>
+        <label><input type="checkbox"> 我的网页有一个输入框。</label>
+        <label><input type="checkbox"> 我的网页有一个提交按钮。</label>
+        <label><input type="checkbox"> 输入正确答案时会显示正确反馈。</label>
+        <label><input type="checkbox"> 输入错误答案时会显示错误反馈或提示。</label>
+        <label><input type="checkbox"> 我能解释 <span class="token">if / else</span> 在我的网页中做了什么。</label>
+      </div>
+    </section>
+
+    <section class="panel section slide" id="homework">
+      <h2>课后任务</h2>
+      <div class="grid two">
+        <div class="card">
+          <h3>基础任务</h3>
+          <p>完成一个只有一题的 Puzzle Game 页面。必须包括：题目、线索、输入框、按钮、正确反馈、错误反馈。</p>
+        </div>
+        <div class="card">
+          <h3>挑战任务</h3>
+          <p>增加一个 Hint 按钮，或者制作 2–3 个连续问题。</p>
+        </div>
+      </div>
+      <details open>
+        <summary>下节课准备提示词</summary>
+        <div class="codebox"><button class="copy" data-copy="homeworkPrompt">复制</button><pre id="homeworkPrompt">我已经完成了一个可以输入答案并判断对错的 Puzzle Game 网页。
+下一步我想增加更多交互，例如提示按钮、下一题按钮或得分系统。
+请先帮我评估哪一种功能最适合初学者，并给出简单的实现步骤。</pre></div>
+      </details>
+    </section>
+  </div>
+
+  <div class="slide-nav">
+    <button class="ghost" onclick="prevSlide()">←</button>
+    <button class="hot" onclick="nextSlide()">下一页</button>
+    <button class="ghost" onclick="window.scrollTo({top:0,behavior:'smooth'})">Top</button>
+  </div>
+
+  <script>
+    function miniCheck(){
+      const ans = document.getElementById('liveAnswer').value.trim().toLowerCase();
+      const result = document.getElementById('liveResult');
+      if(ans === 'library'){
+        result.textContent = 'Correct! You unlocked the mystery box.';
+        result.style.color = '#0f7a37';
+      }else{
+        result.textContent = 'Try again. The answer is a place full of books.';
+        result.style.color = '#b45309';
+      }
+    }
+
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    function currentSlideIndex(){
+      let idx=0;
+      for(let i=0;i<slides.length;i++){
+        if(slides[i].getBoundingClientRect().top < window.innerHeight/2) idx=i;
+      }
+      return idx;
+    }
+    function nextSlide(){const i=Math.min(currentSlideIndex()+1,slides.length-1);slides[i].scrollIntoView({behavior:'smooth',block:'start'});}
+    function prevSlide(){const i=Math.max(currentSlideIndex()-1,0);slides[i].scrollIntoView({behavior:'smooth',block:'start'});}
+
+    document.querySelectorAll('.copy').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const id=btn.dataset.copy;
+        const text=document.getElementById(id).innerText;
+        navigator.clipboard.writeText(text).then(()=>{btn.textContent='已复制';setTimeout(()=>btn.textContent='复制',1200)});
+      });
+    });
+
+    let timerSeconds=8*60, timerInitial=8*60, timerHandle=null;
+    function renderTimer(){
+      const m=String(Math.floor(timerSeconds/60)).padStart(2,'0');
+      const s=String(timerSeconds%60).padStart(2,'0');
+      document.getElementById('timeDisplay').textContent=`${m}:${s}`;
+    }
+    function setTimer(min){timerSeconds=min*60;timerInitial=timerSeconds;renderTimer();}
+    function startTimer(){if(timerHandle)return;timerHandle=setInterval(()=>{timerSeconds=Math.max(0,timerSeconds-1);renderTimer();if(timerSeconds===0)pauseTimer();},1000)}
+    function pauseTimer(){clearInterval(timerHandle);timerHandle=null;}
+    function resetTimer(){pauseTimer();timerSeconds=timerInitial;renderTimer();}
+
+    const templates = {
+      library:`<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Library Password Puzzle</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #10172a;
+      color: #172033;
+    }
+    .game {
+      max-width: 720px;
+      margin: 40px auto;
+      background: #f8fafc;
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    }
+    h1 { color: #24166b; }
+    .clue {
+      background: white;
+      border: 2px solid #dbeafe;
+      border-radius: 18px;
+      padding: 18px;
+      margin: 16px 0;
+    }
+    input {
+      padding: 12px;
+      border: 2px solid #93c5fd;
+      border-radius: 12px;
+      font-size: 16px;
+    }
+    button {
+      padding: 12px 16px;
+      border: none;
+      border-radius: 12px;
+      background: #facc15;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 16px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="game">
+    <h1>Library Password Puzzle</h1>
+    <p>Unlock the mystery box by finding the secret word.</p>
+
+    <div class="clue">
+      <h2>Clue</h2>
+      <p>Books live here. What is the secret word?</p>
+    </div>
+
+    <input id="answerInput" placeholder="Type your answer">
+    <button onclick="checkAnswer()">Check Answer</button>
+
+    <p id="result">Your feedback will appear here.</p>
+  </div>
+
+  <script>
+    function checkAnswer() {
+      let answer = document.getElementById("answerInput").value;
+      answer = answer.trim().toLowerCase();
+
+      let correctAnswer = "library";
+      let result = document.getElementById("result");
+
+      if (answer === correctAnswer) {
+        result.textContent = "Correct! You unlocked the box.";
+        result.style.color = "green";
+      } else {
+        result.textContent = "Try again. Think about where books live.";
+        result.style.color = "orange";
+      }
+    }
+  <\/script>
+</body>
+</html>`,
+      number:`<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Number Pattern Puzzle</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #ecfeff; color: #083344; }
+    .game { max-width: 680px; margin: 40px auto; background: white; border-radius: 22px; padding: 28px; box-shadow: 0 16px 40px rgba(8,51,68,.18); }
+    .pattern { font-size: 32px; font-weight: bold; letter-spacing: 6px; background: #cffafe; padding: 18px; border-radius: 18px; }
+    input, button { font-size: 18px; padding: 12px; border-radius: 12px; margin-top: 14px; }
+    button { border: 0; background: #22c55e; color: white; font-weight: bold; }
+    #result { font-size: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="game">
+    <h1>Number Pattern Puzzle</h1>
+    <p>Find the next number in the pattern.</p>
+    <div class="pattern">2, 4, 8, 16, ?</div>
+    <input id="answerInput" placeholder="Next number">
+    <button onclick="checkAnswer()">Check</button>
+    <p id="result">Waiting for your answer...</p>
+  </div>
+  <script>
+    function checkAnswer() {
+      let answer = document.getElementById("answerInput").value.trim();
+      let result = document.getElementById("result");
+      if (answer === "32") {
+        result.textContent = "Correct! Each number doubles.";
+        result.style.color = "green";
+      } else {
+        result.textContent = "Try again. What happens from 2 to 4 to 8?";
+        result.style.color = "orange";
+      }
+    }
+  <\/script>
+</body>
+</html>`,
+      choice:`<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Mystery Choice Puzzle</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #1e1b4b; color: white; }
+    .game { max-width: 760px; margin: 40px auto; background: rgba(255,255,255,.1); border-radius: 24px; padding: 28px; }
+    .card { background: white; color: #1e1b4b; border-radius: 18px; padding: 18px; margin: 14px 0; }
+    button { display: block; width: 100%; margin: 10px 0; padding: 14px; border: 0; border-radius: 14px; font-weight: bold; cursor: pointer; }
+    #result { font-size: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="game">
+    <h1>Who Took the Trophy?</h1>
+    <div class="card">
+      <p>Clue 1: Alex was in the library.</p>
+      <p>Clue 2: Bella was in the gym.</p>
+      <p>Clue 3: The trophy disappeared from the gym.</p>
+    </div>
+    <button onclick="checkChoice('Alex')">Alex</button>
+    <button onclick="checkChoice('Bella')">Bella</button>
+    <button onclick="checkChoice('Chris')">Chris</button>
+    <p id="result">Choose a suspect.</p>
+  </div>
+  <script>
+    function checkChoice(name) {
+      let result = document.getElementById("result");
+      if (name === "Bella") {
+        result.textContent = "Correct! Bella was in the gym.";
+        result.style.color = "#86efac";
+      } else {
+        result.textContent = "Try again. Check where each person was.";
+        result.style.color = "#fde68a";
+      }
+    }
+  <\/script>
+</body>
+</html>`,
+      blank:`<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>My Puzzle Game</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f3f4f6; }
+    .game { max-width: 700px; margin: 40px auto; background: white; padding: 28px; border-radius: 20px; }
+    input, button { padding: 12px; border-radius: 10px; font-size: 16px; }
+    button { border: 0; background: #2563eb; color: white; font-weight: bold; }
+    #result { font-weight: bold; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <div class="game">
+    <h1>My Puzzle Game</h1>
+    <p>Write your clue here.</p>
+    <input id="answerInput" placeholder="Type your answer">
+    <button onclick="checkAnswer()">Check</button>
+    <p id="result">Feedback will appear here.</p>
+  </div>
+
+  <script>
+    function checkAnswer() {
+      let answer = document.getElementById("answerInput").value.trim().toLowerCase();
+      let result = document.getElementById("result");
+      let correctAnswer = "your answer";
+
+      if (answer === correctAnswer) {
+        result.textContent = "Correct!";
+        result.style.color = "green";
+      } else {
+        result.textContent = "Try again.";
+        result.style.color = "orange";
+      }
+    }
+  <\/script>
+</body>
+</html>`
+    };
+
+    const codeArea=document.getElementById('codeArea');
+    const previewFrame=document.getElementById('previewFrame');
+    function loadTemplate(name, event){
+      codeArea.value=templates[name];
+      document.querySelectorAll('.editor-tabs button').forEach(b=>b.classList.remove('active'));
+      if(event) event.target.classList.add('active');
+      runCode();
+    }
+    function runCode(){
+      const doc=previewFrame.contentWindow.document;
+      doc.open();doc.write(codeArea.value);doc.close();
+    }
+    function saveCode(){localStorage.setItem('lesson03InteractionCode',codeArea.value);alert('已保存到浏览器。');}
+    function restoreCode(){const saved=localStorage.getItem('lesson03InteractionCode');if(saved){codeArea.value=saved;runCode();}else{alert('还没有保存内容。');}}
+    function downloadCode(){
+      const blob=new Blob([codeArea.value],{type:'text/html;charset=utf-8'});
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);a.download='my-puzzle-interaction.html';a.click();URL.revokeObjectURL(a.href);
+    }
+    loadTemplate('library');
+  </script>
 </body>
 </html>

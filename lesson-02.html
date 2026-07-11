@@ -3,39 +3,395 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>第02课｜网页三件套：HTML / CSS / JavaScript</title>
+  <title>第02课｜用 AI 生成网页初稿：写出你的第一版 HTML 与 CSS</title>
   <style>
-    :root{--bg:#0f172a;--card:#111827;--ink:#e5e7eb;--muted:#94a3b8;--brand:#38bdf8;--brand2:#a78bfa;--accent:#facc15;--ok:#34d399;--danger:#fb7185;--line:rgba(255,255,255,.12);--soft:rgba(255,255,255,.07)}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:radial-gradient(circle at 20% 0%,rgba(56,189,248,.25),transparent 30%),radial-gradient(circle at 80% 10%,rgba(167,139,250,.22),transparent 28%),var(--bg);color:var(--ink);line-height:1.65}a{color:inherit}.wrap{max-width:1160px;margin:0 auto;padding:0 20px}.nav{position:sticky;top:0;z-index:20;background:rgba(15,23,42,.76);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}.nav .wrap{display:flex;justify-content:space-between;align-items:center;padding:12px 20px}.logo{font-weight:800}.logo span{color:var(--brand)}.links{display:flex;gap:18px;font-size:14px;color:var(--muted)}.links a{text-decoration:none}.links a:hover{color:white}.hero{padding:70px 0 36px}.badge{display:inline-flex;gap:8px;align-items:center;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--soft);color:#cbd5e1;font-size:14px}.hero h1{font-size:clamp(36px,6vw,66px);line-height:1.05;margin:18px 0 18px;letter-spacing:-2px}.grad{background:linear-gradient(90deg,var(--brand),var(--brand2),var(--accent));-webkit-background-clip:text;color:transparent}.lead{font-size:19px;color:#cbd5e1;max-width:850px}.section{padding:34px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{border:1px solid var(--line);border-radius:24px;background:rgba(17,24,39,.76);padding:22px;box-shadow:0 10px 34px rgba(0,0,0,.16)}.card h2,.card h3{margin-top:0}.tag{display:inline-block;font-size:12px;padding:4px 9px;border-radius:999px;background:rgba(56,189,248,.12);color:#bae6fd;border:1px solid rgba(56,189,248,.25);margin-bottom:12px}.list{padding-left:18px;color:#dbeafe}.list li{margin:8px 0}.prompt{background:#020617;border:1px solid var(--line);border-radius:18px;padding:16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#d1fae5;white-space:pre-wrap}.btn{display:inline-block;padding:12px 18px;border-radius:14px;text-decoration:none;font-weight:700;border:1px solid var(--line);background:var(--soft);margin-right:10px}.btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#020617;border:0}.footer{padding:36px 0 60px;color:var(--muted);text-align:center}@media(max-width:860px){.grid{grid-template-columns:1fr}.links{display:none}}
-
+    :root{
+      --bg:#071827; --card:#0f2538; --card2:#122d45; --ink:#eaf7ff; --muted:#9ec2d6;
+      --blue:#5ee7ff; --yellow:#ffd166; --orange:#ff9f1c; --green:#7ae582; --pink:#ff6bcb; --purple:#a78bfa;
+      --line:rgba(255,255,255,.14); --shadow:0 20px 60px rgba(0,0,0,.35); --radius:28px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;background:radial-gradient(circle at 20% 0%,#143e60 0,#071827 38%,#06131f 100%);color:var(--ink);line-height:1.65;}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:40px 40px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.8),rgba(0,0,0,.15));}
+    a{color:inherit}.wrap{max-width:1180px;margin:0 auto;padding:28px 22px 90px;position:relative}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;position:sticky;top:0;z-index:20;padding:12px 0;backdrop-filter:blur(14px)}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.3px}.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,var(--yellow),var(--orange));display:grid;place-items:center;color:#081826;box-shadow:0 10px 30px rgba(255,159,28,.28);font-size:24px}.pill{border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--ink);border-radius:999px;padding:9px 14px;text-decoration:none;font-weight:700;font-size:14px}.nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.nav .pill:hover{border-color:var(--blue);box-shadow:0 0 0 3px rgba(94,231,255,.08)}
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:stretch;margin-top:10px}.panel{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.055));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.hero-main{padding:42px;position:relative}.eyebrow{display:inline-flex;gap:8px;align-items:center;background:rgba(94,231,255,.12);border:1px solid rgba(94,231,255,.32);color:var(--blue);padding:8px 13px;border-radius:999px;font-weight:900;margin-bottom:18px}.hero h1{font-size:clamp(36px,6vw,76px);line-height:1.02;margin:0 0 18px;font-weight:1000;letter-spacing:-2px}.grad{background:linear-gradient(90deg,var(--blue),var(--yellow),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}.lead{font-size:clamp(17px,2vw,24px);color:#c9e9f7;max-width:760px;margin:0 0 26px}.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}.btn{border:0;border-radius:16px;padding:13px 18px;font-weight:900;cursor:pointer;color:#081826;background:var(--yellow);box-shadow:0 12px 24px rgba(255,209,102,.22);text-decoration:none;display:inline-flex;gap:8px;align-items:center}.btn.secondary{background:rgba(255,255,255,.08);color:var(--ink);border:1px solid var(--line);box-shadow:none}.btn.green{background:var(--green)}.btn.blue{background:var(--blue)}.hero-side{padding:28px;display:grid;gap:14px}.stat{padding:18px;border-radius:22px;background:rgba(0,0,0,.18);border:1px solid var(--line)}.stat b{font-size:28px;color:var(--yellow)}.stat span{display:block;color:var(--muted);font-weight:700}.section{margin-top:28px;padding:28px}.section h2{font-size:clamp(26px,3vw,40px);line-height:1.15;margin:0 0 16px}.section-intro{color:var(--muted);font-size:18px;margin:0 0 22px}.grid{display:grid;gap:16px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}.card{padding:20px;border-radius:22px;background:rgba(255,255,255,.07);border:1px solid var(--line)}.card h3{margin:0 0 10px;font-size:21px}.card p{margin:0;color:#c2dcec}.tag{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:900;background:rgba(255,255,255,.10);border:1px solid var(--line);color:var(--yellow);margin-bottom:10px}.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}.flow .step{padding:16px;border-radius:20px;background:rgba(255,255,255,.07);border:1px solid var(--line);text-align:center}.step-num{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;margin:0 auto 8px;background:var(--blue);color:#06131f;font-weight:1000}.teacher{border-left:6px solid var(--yellow);background:rgba(255,209,102,.08)}.student{border-left:6px solid var(--blue);background:rgba(94,231,255,.08)}.warning{border-left:6px solid var(--orange);background:rgba(255,159,28,.08)}
+    details{border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.055);padding:14px 18px;margin:12px 0}summary{cursor:pointer;font-weight:900;color:var(--yellow)}details p{color:#cbe2ee}.codebox{position:relative;margin-top:12px}.codebox pre{white-space:pre-wrap;word-break:break-word;background:#07111c;border:1px solid rgba(94,231,255,.18);border-radius:18px;padding:18px;color:#d9fbff;overflow:auto;max-height:420px}.copy{position:absolute;top:10px;right:10px;border:1px solid var(--line);background:rgba(255,255,255,.12);color:var(--ink);border-radius:12px;padding:7px 10px;cursor:pointer;font-weight:800}.mini{font-size:14px;color:var(--muted)}
+    .slide-nav{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:30;background:rgba(7,24,39,.8);border:1px solid var(--line);border-radius:999px;padding:8px;backdrop-filter:blur(14px)}.slide-nav button{border:0;border-radius:999px;padding:10px 13px;font-weight:1000;cursor:pointer}.slide-nav .ghost{background:rgba(255,255,255,.1);color:var(--ink)}.slide-nav .hot{background:var(--yellow);color:#081826}.slide{scroll-margin-top:86px;min-height:62vh}
+    .timer{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.time{font-size:42px;font-weight:1000;color:var(--yellow);font-variant-numeric:tabular-nums}.timer button{border:1px solid var(--line);background:rgba(255,255,255,.1);color:var(--ink);border-radius:12px;padding:9px 12px;cursor:pointer;font-weight:900}
+    .choice-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.choice{padding:16px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.07);cursor:pointer}.choice:hover,.choice.active{border-color:var(--yellow);background:rgba(255,209,102,.12);transform:translateY(-2px)}.choice b{display:block;font-size:20px}.choice span{color:var(--muted);font-size:14px}.checklist label{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:15px;background:rgba(255,255,255,.05);margin:8px 0;border:1px solid var(--line)}.checklist input{transform:scale(1.3);margin-top:5px}.badgeline{display:flex;gap:8px;flex-wrap:wrap}.badge{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.09);border:1px solid var(--line);font-weight:800;color:#d8f7ff}
+    .demo-site{background:#f7fbff;color:#172033;border-radius:22px;overflow:hidden;border:1px solid rgba(255,255,255,.3)}.demo-header{background:#3057e3;color:white;padding:22px;text-align:center}.demo-body{padding:22px}.demo-card{background:white;border-radius:18px;border:2px solid #d9e4ff;padding:18px;margin:12px 0;box-shadow:0 8px 18px rgba(48,87,227,.12)}.demo-card button{background:#ffbf3c;border:0;border-radius:12px;padding:10px 14px;font-weight:900}.demo-input{padding:10px;border-radius:10px;border:2px solid #c9d7ff;min-width:200px}.editor{display:grid;grid-template-columns:1fr 1fr;gap:16px}.editor textarea{width:100%;min-height:320px;border-radius:18px;background:#07111c;color:#d9fbff;border:1px solid rgba(94,231,255,.2);padding:16px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;line-height:1.5}.preview{border-radius:18px;border:1px solid var(--line);background:white;min-height:320px;overflow:hidden}.preview iframe{width:100%;height:420px;border:0;background:white}.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.legend div{padding:14px;border-radius:16px;background:rgba(255,255,255,.07);border:1px solid var(--line)}.legend b{color:var(--yellow)}
+    table{border-collapse:collapse;width:100%;overflow:hidden;border-radius:18px}td,th{border:1px solid var(--line);padding:12px;text-align:left}th{background:rgba(255,255,255,.1);color:var(--yellow)}td{color:#dceff8}.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:rgba(255,255,255,.1);border:1px solid var(--line);border-radius:8px;padding:2px 6px;color:var(--yellow)}
+    .print-note{display:none}
+    @media (max-width:900px){.hero,.grid.two,.grid.three,.grid.four,.editor,.flow,.legend{grid-template-columns:1fr}.choice-grid{grid-template-columns:1fr 1fr}.topbar{position:static}.nav{justify-content:flex-start}.hero-main{padding:28px}.slide-nav{left:10px;right:10px;justify-content:center}.section{padding:22px}}
+    @media print{body{background:white;color:#111}.topbar,.slide-nav,.hero-actions,.timer,.copy,.editor,.btn{display:none!important}.panel,.card,details{box-shadow:none;border:1px solid #111;background:white;color:#111}.section{break-inside:avoid}.print-note{display:block}}
   </style>
 </head>
 <body>
-  <nav class="nav"><div class="wrap"><div class="logo">AI <span>Puzzle Game</span> Lesson 02</div><div class="links"><a href="index.html">课程主页</a><a href="lesson-01.html">上一课</a><a href="lesson-03.html">下一课</a></div></div></nav>
-  <header class="hero wrap">
-    <div class="badge">第 02 课 · 40–45 分钟 · AI协作学习单</div>
-    <h1><span class="grad">网页三件套：HTML / CSS / JavaScript</span></h1>
-    <p class="lead">用最小网页理解内容、样式与交互的分工。</p>
-    <p><a class="btn primary" href="#tasks">开始本课任务</a><a class="btn" href="index.html#lessons">返回6课时总览</a></p>
-  </header>
-  <main>
-    <section class="section wrap" id="tasks">
-      <div class="grid">
-        <article class="card"><span class="tag">课堂流程</span><h2>本课做什么？</h2><ul class="list"><li>🧱 搭建基础页面</li><li>修改标题、说明、题目区域、输入框与按钮</li><li>调整颜色、圆角、间距，形成自己的视觉风格</li></ul></article>
-        <article class="card"><span class="tag">学习重点</span><h2>教师提醒</h2><ul class="list"><li>HTML 负责内容结构</li><li>CSS 负责页面外观</li><li>JavaScript 负责按钮和反馈</li></ul></article>
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand"><div class="logo">🧩</div><div>AI × Web Design<br><span class="mini">Puzzle Game Web Creation Camp</span></div></div>
+      <nav class="nav">
+        <a class="pill" href="lesson-01.html">← 第1课</a>
+        <a class="pill" href="lesson-01-project-brief.html" target="_blank">项目构思表</a>
+        <a class="pill" href="#case">案例练习</a>
+        <a class="pill" href="#editor">现场编码</a>
+        <a class="pill" href="#homework">作业</a>
+      </nav>
+    </header>
+
+    <section class="hero panel slide" id="top">
+      <div class="hero-main">
+        <div class="eyebrow">第02课 · 用 AI 生成网页初稿</div>
+        <h1>从想法到代码：<br><span class="grad">写出第一版 HTML 与 CSS</span></h1>
+        <p class="lead">本节课学生将学习如何把第1课的 Puzzle Game 构思，转化成一个真实网页初稿。我们不会只“复制 AI 代码”，而是要看懂并修改 HTML 结构和 CSS 样式。</p>
+        <div class="hero-actions">
+          <a class="btn" href="#case">进入课堂案例</a>
+          <a class="btn secondary" href="#prompt">复制 AI 提示词</a>
+          <a class="btn green" href="#editor">打开练习编辑器</a>
+        </div>
+      </div>
+      <aside class="hero-side">
+        <div class="stat"><b>45 min</b><span>建议课时</span></div>
+        <div class="stat"><b>1</b><span>完整案例：校园密码谜题网页</span></div>
+        <div class="stat"><b>HTML + CSS</b><span>本节核心技能</span></div>
+      </aside>
+    </section>
+
+    <section class="panel section slide" id="objectives">
+      <h2>本节课目标</h2>
+      <p class="section-intro">学生完成本节课后，应能说清楚“AI 生成的网页代码里，哪些部分是 HTML，哪些部分是 CSS”，并能做出至少 3 处自己的修改。</p>
+      <div class="grid three">
+        <div class="card"><span class="tag">知识</span><h3>理解网页初稿</h3><p>知道网页不是一整块代码，而是由结构、内容、样式、交互逐步组成。</p></div>
+        <div class="card"><span class="tag">技能</span><h3>修改 HTML 与 CSS</h3><p>能修改标题、规则文字、谜题卡片、按钮文字、颜色、边框和间距。</p></div>
+        <div class="card"><span class="tag">AI 协作</span><h3>写清楚需求</h3><p>能使用项目构思表写出 AI 提示词，并要求 AI 输出适合初学者的代码。</p></div>
+      </div>
+      <div class="card teacher" style="margin-top:16px"><h3>教师提示</h3><p>本节课不是追求学生独立写完整网页，而是训练他们“读懂一部分、修改一部分、解释一部分”。初二学生能成功改出自己的版本，比背标签更重要。</p></div>
+    </section>
+
+    <section class="panel section slide" id="warmup">
+      <h2>课堂导入：你的构思能变成网页吗？</h2>
+      <p class="section-intro">请学生拿出第1课项目构思表，快速检查自己的 Puzzle Game 是否足够清楚。</p>
+      <div class="grid two">
+        <div class="card student">
+          <h3>学生 3 分钟自查</h3>
+          <div class="checklist">
+            <label><input type="checkbox"> 我的游戏有清楚的标题。</label>
+            <label><input type="checkbox"> 玩家知道自己要做什么。</label>
+            <label><input type="checkbox"> 我至少有 1 道谜题或 3 条线索。</label>
+            <label><input type="checkbox"> 我知道正确答案是什么。</label>
+          </div>
+        </div>
+        <div class="card teacher">
+          <h3>教师提问</h3>
+          <p>如果我们要把一个游戏放进网页，网页上最少需要哪些东西？</p>
+          <div class="badgeline"><span class="badge">标题</span><span class="badge">规则</span><span class="badge">谜题内容</span><span class="badge">答案区</span><span class="badge">提交按钮</span><span class="badge">反馈</span></div>
+        </div>
       </div>
     </section>
-    <section class="section wrap">
-      <div class="grid">
-        <article class="card"><span class="tag">学生产出</span><h2>提交物</h2><p>完成本课页面或学习单，并能用 2–3 句话说明自己修改了什么、为什么这样设计。</p></article>
-        <article class="card"><span class="tag">检查清单</span><h2>下课前确认</h2><ul class="list"><li>文件已保存，命名清楚。</li><li>页面能在浏览器中打开。</li><li>遇到问题时记录了错误现象和修改办法。</li></ul></article>
+
+    <section class="panel section slide" id="concept">
+      <h2>核心概念：HTML 是内容，CSS 是外观</h2>
+      <p class="section-intro">用一个很简单的比喻：HTML 决定“页面上有什么”，CSS 决定“这些东西长什么样”。</p>
+      <div class="legend">
+        <div><b>HTML</b><p>像房子的结构：标题、段落、按钮、输入框、卡片。</p></div>
+        <div><b>CSS</b><p>像房子的装修：颜色、字体、大小、间距、圆角、阴影。</p></div>
+        <div><b>JavaScript</b><p>像房子的开关：点击按钮后判断答案、显示反馈。本节只简单看到它。</p></div>
+      </div>
+      <details open>
+        <summary>投屏讲解：从一行代码看 HTML 和 CSS</summary>
+        <div class="codebox"><button class="copy" data-copy="basic-code">复制</button><pre id="basic-code">&lt;h1&gt;校园密码谜题&lt;/h1&gt;
+
+/* CSS */
+h1 {
+  color: blue;
+  text-align: center;
+}</pre></div>
+        <p>上面第一行是 HTML：它告诉浏览器“这里有一个大标题”。下面是 CSS：它告诉浏览器“这个大标题要变成蓝色并居中”。</p>
+      </details>
+    </section>
+
+    <section class="panel section slide" id="case">
+      <h2>实际案例：校园密码谜题网页</h2>
+      <p class="section-intro">本节课统一使用一个简单案例练习。之后学生再把这个结构迁移到自己的 Puzzle Game 主题。</p>
+      <div class="grid two">
+        <div class="card">
+          <h3>案例设定</h3>
+          <table>
+            <tr><th>项目</th><th>内容</th></tr>
+            <tr><td>游戏名称</td><td>校园密码谜题</td></tr>
+            <tr><td>游戏背景</td><td>学校图书馆有一个神秘盒子，需要输入正确密码才能打开。</td></tr>
+            <tr><td>谜题内容</td><td>密码由三个线索组成：最喜欢阅读的地点、代表智慧的动物、今天课程主题。</td></tr>
+            <tr><td>正确答案</td><td>libraryowlai</td></tr>
+          </table>
+        </div>
+        <div class="demo-site">
+          <div class="demo-header"><h3 style="margin:0;font-size:28px">校园密码谜题</h3><p style="margin:6px 0 0">Can you unlock the secret box?</p></div>
+          <div class="demo-body">
+            <div class="demo-card"><b>游戏规则</b><p>根据线索猜出最终密码，并输入答案。</p></div>
+            <div class="demo-card"><b>线索 1</b><p>密码的第一部分是：学校里最适合阅读的地方。</p></div>
+            <div class="demo-card"><b>线索 2</b><p>密码的第二部分是：常被认为代表智慧的动物。</p></div>
+            <div class="demo-card"><b>线索 3</b><p>密码的第三部分是：这门课的重要工具。</p></div>
+            <input class="demo-input" placeholder="输入密码" /> <button>提交答案</button>
+          </div>
+        </div>
       </div>
     </section>
-    <section class="section wrap">
-      <h2>本课 AI 提示词</h2>
-      <div class="prompt">请解释这个 HTML 文件里每一块代码的作用，用初二学生能理解的语言说明。</div>
+
+    <section class="panel section slide" id="prompt">
+      <h2>AI 提示词：让 AI 生成第一版网页</h2>
+      <p class="section-intro">学生不要只输入“帮我做网页”。要告诉 AI：身份、项目、内容、功能、风格、代码难度。</p>
+      <div class="codebox"><button class="copy" data-copy="ai-prompt">复制提示词</button><pre id="ai-prompt">我是一名初二学生，正在学习用 AI 制作 Puzzle Game 网页。
+请帮我生成一个简单的 HTML、CSS、JavaScript 网页初稿。
+
+游戏名称：校园密码谜题
+游戏背景：学校图书馆有一个神秘盒子，需要输入正确密码才能打开。
+游戏规则：玩家阅读 3 条线索，猜出最终密码，并点击按钮提交答案。
+线索：
+1. 密码的第一部分是：学校里最适合阅读的地方。
+2. 密码的第二部分是：常被认为代表智慧的动物。
+3. 密码的第三部分是：这门课的重要工具。
+正确答案：libraryowlai
+
+网页要求：
+1. 使用一个 HTML 文件完成；
+2. 代码适合初学者阅读；
+3. 页面包含标题、游戏规则、三条线索、输入框、提交按钮、结果反馈；
+4. CSS 风格要像一个神秘校园游戏，颜色清楚，卡片有圆角；
+5. 请在代码中加入简单注释，说明 HTML、CSS、JavaScript 各自的作用。</pre></div>
+      <div class="card warning" style="margin-top:16px"><h3>教师提醒</h3><p>AI 生成后，不要让学生直接“交作业”。本节重点是让学生修改至少 3 个地方：文字内容、页面颜色、卡片样式或按钮文字。</p></div>
     </section>
-  </main>
-  <footer class="footer wrap"><a class="btn" href="lesson-01.html">← 上一课</a><a class="btn primary" href="lesson-03.html">下一课 →</a><p>核心理念：先表达设计想法，再请 AI 帮忙生成、解释和修改。</p></footer>
+
+    <section class="panel section slide" id="code-reading">
+      <h2>读代码：网页初稿由哪些部分组成？</h2>
+      <p class="section-intro">教师可以用下面的“结构地图”带学生看 AI 代码。学生只需要先认识常见标签，不需要背全部语法。</p>
+      <div class="grid three">
+        <div class="card"><h3>1. 页面基本结构</h3><p><span class="kbd">&lt;!DOCTYPE html&gt;</span>、<span class="kbd">&lt;html&gt;</span>、<span class="kbd">&lt;head&gt;</span>、<span class="kbd">&lt;body&gt;</span></p></div>
+        <div class="card"><h3>2. 内容标签</h3><p><span class="kbd">&lt;h1&gt;</span> 标题，<span class="kbd">&lt;p&gt;</span> 段落，<span class="kbd">&lt;div&gt;</span> 分区，<span class="kbd">&lt;button&gt;</span> 按钮。</p></div>
+        <div class="card"><h3>3. 样式选择器</h3><p><span class="kbd">body</span> 整页，<span class="kbd">.card</span> 卡片，<span class="kbd">button</span> 按钮，<span class="kbd">#result</span> 结果区。</p></div>
+      </div>
+      <details>
+        <summary>展开：课堂讲解代码片段</summary>
+        <div class="codebox"><button class="copy" data-copy="reading-code">复制代码片段</button><pre id="reading-code">&lt;div class="clue-card"&gt;
+  &lt;h2&gt;线索 1&lt;/h2&gt;
+  &lt;p&gt;密码的第一部分是：学校里最适合阅读的地方。&lt;/p&gt;
+&lt;/div&gt;
+
+.clue-card {
+  background-color: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 12px 0;
+}</pre></div>
+        <p>这里的 <span class="kbd">class="clue-card"</span> 像给盒子贴了一个名字。CSS 通过 <span class="kbd">.clue-card</span> 找到这个盒子，然后给它加白色背景、圆角和间距。</p>
+      </details>
+    </section>
+
+    <section class="panel section slide" id="editor">
+      <h2>现场练习：修改 HTML 与 CSS</h2>
+      <p class="section-intro">下面是一个可运行的课堂练习。左边修改代码，点击“更新预览”，右边查看效果。适合教师投屏，也适合学生自己练。</p>
+      <div class="hero-actions" style="margin-bottom:14px">
+        <button class="btn blue" onclick="runPreview()">更新预览</button>
+        <button class="btn secondary" onclick="resetCode()">恢复初始代码</button>
+      </div>
+      <div class="editor">
+        <textarea id="studentCode" spellcheck="false"></textarea>
+        <div class="preview"><iframe id="previewFrame" title="网页预览"></iframe></div>
+      </div>
+      <div class="grid three" style="margin-top:16px">
+        <div class="card student"><h3>任务 A：改 HTML 内容</h3><p>把标题改成自己的游戏名；把三条线索改成自己的谜题内容。</p></div>
+        <div class="card student"><h3>任务 B：改 CSS 外观</h3><p>修改 <span class="kbd">background</span>、<span class="kbd">color</span>、<span class="kbd">border-radius</span>，观察网页变化。</p></div>
+        <div class="card student"><h3>任务 C：改按钮与反馈</h3><p>把按钮文字改成“解锁谜题”或其他符合游戏风格的文字。</p></div>
+      </div>
+    </section>
+
+    <section class="panel section slide" id="practice">
+      <h2>学生独立迁移：把案例换成自己的游戏</h2>
+      <p class="section-intro">学生使用自己的项目构思表，完成“替换式创作”。先不追求复杂功能，先把自己的内容放进网页。</p>
+      <div class="flow">
+        <div class="step"><div class="step-num">1</div><b>打开构思表</b><p class="mini">确认游戏名称和类型</p></div>
+        <div class="step"><div class="step-num">2</div><b>复制 AI 提示词</b><p class="mini">替换成自己的内容</p></div>
+        <div class="step"><div class="step-num">3</div><b>生成网页初稿</b><p class="mini">得到 HTML/CSS/JS</p></div>
+        <div class="step"><div class="step-num">4</div><b>修改 3 处</b><p class="mini">标题、线索、颜色</p></div>
+        <div class="step"><div class="step-num">5</div><b>保存代码</b><p class="mini">准备下节课继续美化</p></div>
+      </div>
+      <div class="card teacher" style="margin-top:16px"><h3>教师巡视时看什么？</h3><p>优先看学生是否真的替换了自己的内容，而不是只保留案例。其次看他们能否指出一处 HTML 修改和一处 CSS 修改。</p></div>
+    </section>
+
+    <section class="panel section slide" id="timer">
+      <h2>课堂计时器</h2>
+      <p class="section-intro">建议用于学生独立练习阶段。</p>
+      <div class="timer">
+        <div class="time" id="timeDisplay">10:00</div>
+        <button onclick="setTimer(5)">5分钟</button>
+        <button onclick="setTimer(10)">10分钟</button>
+        <button onclick="setTimer(15)">15分钟</button>
+        <button onclick="startTimer()">开始</button>
+        <button onclick="pauseTimer()">暂停</button>
+        <button onclick="resetTimer()">重置</button>
+      </div>
+    </section>
+
+    <section class="panel section slide" id="exit-ticket">
+      <h2>下课前检查清单</h2>
+      <p class="section-intro">学生离开教室前，应能完成以下内容。</p>
+      <div class="grid two">
+        <div class="card student checklist">
+          <label><input type="checkbox"> 我已经用 AI 生成了一个网页初稿。</label>
+          <label><input type="checkbox"> 我能指出网页中的一个 HTML 标签。</label>
+          <label><input type="checkbox"> 我能指出网页中的一个 CSS 样式。</label>
+          <label><input type="checkbox"> 我至少修改了 3 处内容或样式。</label>
+          <label><input type="checkbox"> 我保存了自己的网页代码。</label>
+        </div>
+        <div class="card teacher">
+          <h3>课堂出口问题</h3>
+          <p>请学生用一句话回答：</p>
+          <div class="codebox"><pre>今天我修改的一个 HTML 部分是：__________
+今天我修改的一个 CSS 部分是：__________</pre></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel section slide" id="homework">
+      <h2>课后作业</h2>
+      <div class="grid two">
+        <div class="card">
+          <h3>作业 1：保存你的第一版网页</h3>
+          <p>把 AI 生成并修改过的代码保存为 <span class="kbd">lesson02-draft.html</span> 或 <span class="kbd">index.html</span>。下节课会继续美化和优化。</p>
+        </div>
+        <div class="card">
+          <h3>作业 2：写 3 条修改记录</h3>
+          <p>记录你修改了什么，例如：改了游戏标题、改了背景颜色、增加了一条线索、改了按钮文字。</p>
+        </div>
+      </div>
+      <div class="codebox"><button class="copy" data-copy="homework-template">复制作业模板</button><pre id="homework-template">我的第2课网页修改记录：
+1. 我修改的 HTML 内容是：__________
+2. 我修改的 CSS 样式是：__________
+3. 我希望第3课继续优化的地方是：__________</pre></div>
+    </section>
+
+
+  <div class="slide-nav">
+    <button class="ghost" onclick="prevSlide()">←</button>
+    <button class="hot" onclick="nextSlide()">下一页</button>
+    <button class="ghost" onclick="window.scrollTo({top:0,behavior:'smooth'})">顶部</button>
+  </div>
+
+  <script>
+    const slides=[...document.querySelectorAll('.slide')];let current=0;
+    function gotoSlide(i){current=Math.max(0,Math.min(slides.length-1,i));slides[current].scrollIntoView({behavior:'smooth',block:'start'});}
+    function nextSlide(){gotoSlide(current+1)}function prevSlide(){gotoSlide(current-1)}
+    window.addEventListener('scroll',()=>{let best=0,dist=Infinity;slides.forEach((s,i)=>{const d=Math.abs(s.getBoundingClientRect().top-90);if(d<dist){best=i;dist=d}});current=best;});
+
+    document.querySelectorAll('.copy').forEach(btn=>{btn.addEventListener('click',async()=>{const id=btn.dataset.copy;const text=document.getElementById(id).innerText;try{await navigator.clipboard.writeText(text);btn.textContent='已复制';setTimeout(()=>btn.textContent='复制',1200)}catch(e){alert('复制失败，请手动选择文本复制。')}})});
+
+    let total=600,remain=600,timer=null;
+    function setTimer(m){total=remain=m*60;renderTime()}function renderTime(){const m=String(Math.floor(remain/60)).padStart(2,'0');const s=String(remain%60).padStart(2,'0');document.getElementById('timeDisplay').textContent=m+':'+s}
+    function startTimer(){if(timer)return;timer=setInterval(()=>{remain=Math.max(0,remain-1);renderTime();if(remain===0){pauseTimer();alert('时间到！')}} ,1000)}function pauseTimer(){clearInterval(timer);timer=null}function resetTimer(){pauseTimer();remain=total;renderTime()}
+
+    const initialCode = `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>校园密码谜题</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eaf3ff;
+      color: #1f2a44;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .game-box {
+      max-width: 680px;
+      margin: auto;
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    h1 {
+      color: #3057e3;
+    }
+
+    .clue-card {
+      background: #f7f9ff;
+      border: 2px solid #d9e4ff;
+      border-radius: 16px;
+      padding: 16px;
+      margin: 12px 0;
+      text-align: left;
+    }
+
+    input {
+      padding: 10px;
+      border: 2px solid #b7c8ff;
+      border-radius: 10px;
+    }
+
+    button {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 10px;
+      background: #ffbf3c;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 16px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-box">
+    <h1>校园密码谜题</h1>
+    <p>阅读三条线索，猜出神秘盒子的密码。</p>
+
+    <div class="clue-card">
+      <h2>线索 1</h2>
+      <p>密码的第一部分是：学校里最适合阅读的地方。</p>
+    </div>
+
+    <div class="clue-card">
+      <h2>线索 2</h2>
+      <p>密码的第二部分是：常被认为代表智慧的动物。</p>
+    </div>
+
+    <div class="clue-card">
+      <h2>线索 3</h2>
+      <p>密码的第三部分是：这门课的重要工具。</p>
+    </div>
+
+    <input id="answer" placeholder="输入你的答案">
+    <button onclick="checkAnswer()">提交答案</button>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    function checkAnswer() {
+      const answer = document.getElementById('answer').value.toLowerCase();
+      const result = document.getElementById('result');
+
+      if (answer === 'libraryowlai') {
+        result.textContent = '回答正确！神秘盒子打开了！';
+        result.style.color = 'green';
+      } else {
+        result.textContent = '还不对，再看看线索。';
+        result.style.color = 'red';
+      }
+    }
+  <\/script>
+</body>
+</html>`;
+
+    function resetCode(){document.getElementById('studentCode').value=initialCode;runPreview()}
+    function runPreview(){const code=document.getElementById('studentCode').value;const frame=document.getElementById('previewFrame');frame.srcdoc=code}
+    resetCode();
+  </script>
 </body>
 </html>
