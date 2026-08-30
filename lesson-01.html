@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>第01课｜从玩家到设计师：什么是 Puzzle Game 网页？</title>
+  <style>
+    :root{
+      --bg:#071827; --card:#0f2538; --card2:#122d45; --ink:#eaf7ff; --muted:#9ec2d6;
+      --blue:#5ee7ff; --yellow:#ffd166; --orange:#ff9f1c; --green:#7ae582; --pink:#ff6bcb; --purple:#a78bfa;
+      --line:rgba(255,255,255,.14); --shadow:0 20px 60px rgba(0,0,0,.35);
+      --radius:28px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;background:radial-gradient(circle at 20% 0%,#143e60 0,#071827 38%,#06131f 100%);color:var(--ink);line-height:1.65;}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(#000,transparent 82%)}
+    a{color:inherit;text-decoration:none} button,input,textarea,select{font:inherit}
+    .topbar{position:sticky;top:0;z-index:20;backdrop-filter:blur(16px);background:rgba(7,24,39,.76);border-bottom:1px solid var(--line)}
+    .nav{max-width:1180px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 18px}.brand{font-weight:900;letter-spacing:.2px}.links{display:flex;gap:8px;flex-wrap:wrap}.links a,.tinybtn{border:1px solid var(--line);padding:8px 12px;border-radius:999px;color:var(--muted);background:rgba(255,255,255,.05);cursor:pointer}.links a:hover,.tinybtn:hover{color:var(--ink);background:rgba(255,255,255,.1)}
+    .container{max-width:1180px;margin:0 auto;padding:28px 18px 80px}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:stretch;padding:30px 0}.panel{background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.045));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.heroText{padding:38px}.tag{display:inline-flex;align-items:center;gap:8px;background:rgba(94,231,255,.13);border:1px solid rgba(94,231,255,.35);color:var(--blue);border-radius:999px;padding:8px 12px;font-weight:800}.hero h1{font-size:clamp(36px,5vw,70px);line-height:1.05;margin:20px 0 14px;letter-spacing:-1.5px}.gradient{background:linear-gradient(90deg,var(--yellow),var(--blue),var(--pink));-webkit-background-clip:text;color:transparent}.lead{font-size:20px;color:#cfeeff;max-width:720px}.meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.chip{padding:10px 14px;border-radius:16px;background:rgba(255,255,255,.08);border:1px solid var(--line);color:#d9f6ff;font-weight:700}.heroCard{padding:26px;display:flex;flex-direction:column;gap:18px}.miniGame{background:#06131f;border:1px solid var(--line);border-radius:24px;padding:18px}.gameTitle{display:flex;justify-content:space-between;align-items:center;color:var(--yellow);font-weight:900}.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}.tile{aspect-ratio:1;border-radius:14px;display:grid;place-items:center;font-weight:900;font-size:28px;background:linear-gradient(145deg,#ffe08a,#ff9f1c);color:#321b00;box-shadow:inset 0 -5px rgba(0,0,0,.13)}.codebox{background:#06131f;border-radius:20px;padding:14px;color:#a8ffcb;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;border:1px solid var(--line);white-space:pre-wrap}
+    section{margin:34px 0}.sectionHead{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:16px}.sectionHead h2{font-size:32px;margin:0}.sectionHead p{margin:0;color:var(--muted);max-width:680px}.grid{display:grid;gap:16px}.grid3{grid-template-columns:repeat(3,1fr)}.grid4{grid-template-columns:repeat(4,1fr)}.card{padding:22px;background:rgba(255,255,255,.075);border:1px solid var(--line);border-radius:24px}.card h3{margin:0 0 10px;font-size:21px}.card p,.card li{color:#c8e0ee}.icon{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;background:rgba(255,255,255,.1);font-size:24px;margin-bottom:12px}.slide{min-height:520px;display:none;padding:34px}.slide.active{display:block}.slide h2{font-size:42px;margin:0 0 10px}.slide .big{font-size:24px;color:#d8f5ff}.slideNum{display:inline-block;margin-bottom:16px;color:var(--yellow);font-weight:900}.slideControls{display:flex;justify-content:space-between;gap:12px;padding:18px 24px;border-top:1px solid var(--line);background:rgba(0,0,0,.16)}.primary{border:0;background:linear-gradient(90deg,var(--orange),var(--yellow));color:#321b00;border-radius:16px;padding:12px 18px;font-weight:900;cursor:pointer}.secondary{border:1px solid var(--line);background:rgba(255,255,255,.08);color:var(--ink);border-radius:16px;padding:12px 18px;font-weight:800;cursor:pointer}.pillrow{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}.choice{border:1px solid var(--line);background:rgba(255,255,255,.07);padding:12px 14px;border-radius:18px;cursor:pointer}.choice.selected{background:rgba(94,231,255,.16);border-color:var(--blue);box-shadow:0 0 0 3px rgba(94,231,255,.1)}
+    details{border:1px solid var(--line);border-radius:20px;padding:16px 18px;background:rgba(255,255,255,.06)}details+details{margin-top:12px}summary{cursor:pointer;font-weight:900;color:#fff}.timeline{display:grid;grid-template-columns:repeat(7,auto);align-items:center;gap:8px}.step{padding:16px;border-radius:20px;background:rgba(255,255,255,.08);border:1px solid var(--line);min-height:145px}.num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--yellow);color:#241600;font-weight:1000;margin-bottom:8px}.arrow{color:var(--blue);font-size:28px;font-weight:900}.prompt{position:relative;background:#06131f;border:1px solid var(--line);border-radius:22px;padding:18px;white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#c6f6d5}.copy{position:absolute;right:12px;top:12px}.timer{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.timeDisplay{font-size:48px;font-weight:1000;color:var(--yellow);letter-spacing:1px}.checklist label{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:16px;background:rgba(255,255,255,.055);margin:8px 0}.checklist input{margin-top:5px}.teacherNote{border-left:5px solid var(--yellow);background:rgba(255,209,102,.12)}.studentMode .teacherOnly{display:none}.modeBadge{font-size:12px;color:#06131f;background:var(--green);padding:4px 8px;border-radius:999px;font-weight:900}.kbd{background:rgba(255,255,255,.12);border:1px solid var(--line);padding:2px 7px;border-radius:8px;color:#fff}.footer{margin-top:50px;color:var(--muted);text-align:center}.printOnly{display:none}
+    @media(max-width:900px){.hero{grid-template-columns:1fr}.grid3,.grid4{grid-template-columns:1fr}.timeline{grid-template-columns:1fr}.arrow{display:none}.slide{min-height:auto}.links{display:none}}
+    @media print{.topbar,.slideControls,.noPrint{display:none!important}.printOnly{display:block}.panel,.card,details{box-shadow:none;background:white;color:#111;border-color:#ddd}.card p,.card li,.sectionHead p{color:#333}body{background:white;color:#111}.container{max-width:none;padding:0}.slide{display:block;min-height:auto;page-break-after:always}.hero{display:block}.gradient{color:#111;background:none}.tag,.chip{border-color:#ddd;color:#111;background:#f5f5f5}}
+  </style>
+</head>
+<body>
+  <div class="topbar noPrint"><nav class="nav"><div class="brand">🧩 Lesson 01 <span class="modeBadge" id="modeBadge">教师课件模式</span></div><div class="links"><a href="index.html">课程主页</a><a href="#flow">课堂流程</a><a href="#slides">投屏课件</a><a href="lesson-01-project-brief.html">项目构思表</a><button class="tinybtn" id="toggleMode">切换学生模式</button></div></nav></div>
+  <main class="container">
+    <header class="hero">
+      <div class="panel heroText">
+        <span class="tag">第 01 课 · 40–45 分钟 · AI 协作项目启动</span>
+        <h1>从玩家到设计师：<br><span class="gradient">什么是 Puzzle Game 网页？</span></h1>
+        <p class="lead">本节课不是马上写代码，而是先体验谜题、拆解网页游戏结构，并确定自己的 Puzzle Game 项目方向。</p>
+      </div>
+      <div class="panel heroCard">
+        <div class="miniGame"><div class="gameTitle"><span>Mini Puzzle Warm-up</span><span>Level 1</span></div><div class="tiles"><div class="tile">P</div><div class="tile">L</div><div class="tile">A</div><div class="tile">Y</div></div><p style="color:#cbe6f5;margin:0">思考：一个网页游戏至少需要哪些部分，才能让别人“看懂并玩起来”？</p></div>
+        <div class="codebox">网页 = 内容 + 样式 + 交互
+HTML = 骨架
+CSS = 外观
+JavaScript = 大脑</div>
+      </div>
+    </header>
+
+    <section id="goal"><div class="sectionHead"><h2>本课目标</h2><p>让学生先建立“网页项目”意识，再把 puzzle game 从玩家视角转换成设计师视角。</p></div><div class="grid grid3"><div class="card"><div class="icon">🌐</div><h3>认识网页</h3><p>理解网页由标题、文字、图片、按钮、输入框、链接、布局和交互组成。</p></div><div class="card"><div class="icon">🧩</div><h3>拆解游戏</h3><p>区分游戏主题、规则、玩家输入、反馈方式和胜利条件。</p></div><div class="card"><div class="icon">🤖</div><h3>学会提问</h3><p>使用 AI 生成主题点子，但要能筛选、修改和表达自己的需求。</p></div></div></section>
+
+    <section id="flow"><div class="sectionHead"><h2>课堂流程</h2><div class="timeline"><div class="step"><div class="num">1</div><b>导入</b><br>你玩过哪些 Puzzle Game？<br><small>5 min</small></div><div class="arrow">→</div><div class="step"><div class="num">2</div><b>成果展示</b><br>6节课后要做出什么？<br><small>5 min</small></div><div class="arrow">→</div><div class="step"><div class="num">3</div><b>网页三件套</b><br>内容、样式、交互<br><small>8 min</small></div><div class="arrow">→</div><div class="step"><div class="num">4</div><b>项目拆解</b><br>游戏网页需要哪些元素？<br><small>8 min</small></div></div><div class="timeline" style="margin-top:8px"><div class="step"><div class="num">5</div><b>AI 示范</b><br>生成主题与细化主题<br><small>8 min</small></div><div class="arrow">→</div><div class="step"><div class="num">6</div><b>学生任务</b><br>完成项目构思表<br><small>8–10 min</small></div><div class="arrow">→</div><div class="step"><div class="num">7</div><b>分享总结</b><br>2–3位学生介绍想法<br><small>3–5 min</small></div><div class="arrow">✓</div><div class="step"><div class="num">✓</div><b>下课产出</b><br>游戏类型 + 名称 + 玩法 + AI提示词</div></div></section>
+
+    <section id="slides"><div class="sectionHead"><h2>投屏课件</h2><p>点击“下一页”切换，也可以按键盘 <span class="kbd">←</span> <span class="kbd">→</span>。</p></div><div class="panel" id="deck">
+      <article class="slide active"><span class="slideNum">Slide 1 / 8</span><h2>今天的问题</h2><p class="big">我们不只是玩 Puzzle Game，而是要成为设计 Puzzle Game 网页的人。</p><div class="grid grid3"><div class="card"><h3>玩家会问</h3><p>我怎么玩？怎么赢？答案对不对？</p></div><div class="card"><h3>设计师会问</h3><p>规则是否清楚？反馈是否及时？网页是否好用？</p></div><div class="card"><h3>AI 可以帮忙</h3><p>生成点子、写初稿、解释代码、提出修改建议。</p></div></div></article>
+      <article class="slide"><span class="slideNum">Slide 2 / 8</span><h2>你玩过哪些 Puzzle Game？</h2><p class="big">请说出你玩过或见过的谜题游戏。</p><div class="pillrow" id="gameTypes"><button class="choice">文字谜题</button><button class="choice">数独 / 数字谜题</button><button class="choice">逻辑推理</button><button class="choice">神秘案件推理</button><button class="choice">找规律</button><button class="choice">找不同 / 隐藏物品</button></div><div class="card teacherOnly teacherNote" style="margin-top:18px"><h3>教师提示</h3><p>引导学生发现：Puzzle Game 的核心不是画面复杂，而是“让玩家思考并做判断”。</p></div></article>
+      <article class="slide"><span class="slideNum">Slide 3 / 8</span><h2>课程最终成果</h2><p class="big">6节课后，每位学生完成一个可以上传到 GitHub Pages 的 Puzzle Game 网页。</p><div class="codebox">你的 Puzzle Game 网页
+├── 游戏标题
+├── 游戏规则
+├── 谜题内容
+├── 玩家输入或点击按钮
+├── 判断答案
+├── 显示反馈
+└── 发布到 GitHub Pages</div></article>
+      <article class="slide"><span class="slideNum">Slide 4 / 8</span><h2>网页 = 内容 + 样式 + 交互</h2><div class="grid grid3"><div class="card"><div class="icon">骨</div><h3>HTML</h3><p>决定网页上有什么：标题、文字、图片、按钮、输入框。</p></div><div class="card"><div class="icon">衣</div><h3>CSS</h3><p>决定网页长什么样：颜色、字体、排版、边框、背景。</p></div><div class="card"><div class="icon">脑</div><h3>JavaScript</h3><p>决定网页会不会动：点击按钮、判断答案、显示反馈。</p></div></div></article>
+      <article class="slide"><span class="slideNum">Slide 5 / 8</span><h2>一个 Puzzle Game 网页需要什么？</h2><details open><summary>游戏名称与背景</summary><p>让玩家知道这是一个什么游戏，为什么要玩。</p></details><details><summary>游戏规则与目标</summary><p>告诉玩家要做什么，怎样算赢。</p></details><details><summary>谜题内容与线索</summary><p>题目、文字、数字、嫌疑人、地点、物品、图片等。</p></details><details><summary>玩家操作与反馈</summary><p>输入答案、点击选项、提交按钮、正确/错误提示。</p></details></article>
+      <article class="slide"><span class="slideNum">Slide 6 / 8</span><h2>AI 协作示范</h2><p class="big">提示词要包含：我是谁、我要做什么、难度要求、输出格式。</p><div class="prompt" id="prompt1"><button class="tinybtn copy" data-copy="prompt1">复制</button>我是一名初二学生，正在制作一个 Puzzle Game 网页。
+请帮我生成5个适合初中生制作的网页小游戏主题。
+要求：
+1. 不要太复杂；
+2. 可以用 HTML、CSS、JavaScript 实现；
+3. 每个主题包括游戏名称、玩法说明、玩家需要做什么。</div></article>
+      <article class="slide"><span class="slideNum">Slide 7 / 8</span><h2>细化一个主题</h2><div class="prompt" id="prompt2"><button class="tinybtn copy" data-copy="prompt2">复制</button>我想做一个 Murdle-style mystery puzzle 网页。
+请帮我设计一个简单案件。
+要求：
+1. 有3个嫌疑人；
+2. 有3条线索；
+3. 玩家需要根据线索判断真正的答案；
+4. 适合初二学生理解；
+5. 最后给出正确答案和解释。</div><div class="card teacherOnly teacherNote" style="margin-top:18px"><h3>教师提醒</h3><p>AI 生成内容后必须人工检查：是否太难？是否有歧义？是否能在网页中判断答案？</p></div></article>
+      <article class="slide"><span class="slideNum">Slide 8 / 8</span><h2>今天的课堂任务</h2><p class="big">完成自己的 Puzzle Game 网页项目构思表。</p><div class="grid grid3"><div class="card"><h3>1. 选类型</h3><p>文字、数字、逻辑、神秘推理或其他。</p></div><div class="card"><h3>2. 写玩法</h3><p>玩家看什么？做什么？怎样提交答案？</p></div><div class="card"><h3>3. 写提示词</h3><p>下节课用它让 AI 生成第一版网页代码。</p></div></div><p style="margin-top:22px"><a class="primary" href="lesson-01-project-brief.html">打开项目构思表</a></p></article>
+      <div class="slideControls"><button class="secondary" id="prev">← 上一页</button><div><span id="progressText">1 / 8</span></div><button class="primary" id="next">下一页 →</button></div>
+    </div></section>
+
+    <section id="activity"><div class="sectionHead"><h2>课堂任务区</h2><p>投屏时可用于控制课堂节奏；学生也可以在自己电脑上对照完成。</p></div><div class="grid grid3"><div class="card"><h3>课堂计时器</h3><div class="timer"><div class="timeDisplay" id="timeDisplay">08:00</div><div><button class="primary" data-min="5">5分钟</button> <button class="primary" data-min="8">8分钟</button> <button class="primary" data-min="10">10分钟</button><br><button class="secondary" id="startTimer">开始/暂停</button> <button class="secondary" id="resetTimer">重置</button></div></div></div><div class="card checklist"><h3>下课前检查</h3><label><input type="checkbox"> 我已经选定游戏类型</label><label><input type="checkbox"> 我写出了游戏名称</label><label><input type="checkbox"> 我能解释玩家怎么玩</label><label><input type="checkbox"> 我写出了一条 AI 提示词</label></div><div class="card"><h3>提交物</h3><p>本课提交：项目构思表 + 1条 AI 提示词。下一节课将用它生成第一版网页代码。</p><a class="primary" href="lesson-01-project-brief.html">进入构思表</a></div></div></section>
+
+  </main>
+  <script>
+    const slides=[...document.querySelectorAll('.slide')];let current=0;const progress=document.getElementById('progressText');
+    function show(i){current=(i+slides.length)%slides.length;slides.forEach((s,idx)=>s.classList.toggle('active',idx===current));progress.textContent=(current+1)+' / '+slides.length;}
+    document.getElementById('next').onclick=()=>show(current+1);document.getElementById('prev').onclick=()=>show(current-1);
+    document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')show(current+1);if(e.key==='ArrowLeft')show(current-1)});
+    document.querySelectorAll('.choice').forEach(b=>b.onclick=()=>b.classList.toggle('selected'));
+    document.querySelectorAll('[data-copy]').forEach(btn=>btn.onclick=()=>{const el=document.getElementById(btn.dataset.copy);navigator.clipboard.writeText(el.innerText.replace('复制','').trim());btn.textContent='已复制';setTimeout(()=>btn.textContent='复制',1200)});
+    const toggle=document.getElementById('toggleMode'), badge=document.getElementById('modeBadge');toggle.onclick=()=>{document.body.classList.toggle('studentMode');const is=document.body.classList.contains('studentMode');badge.textContent=is?'学生查看模式':'教师课件模式';toggle.textContent=is?'切换教师模式':'切换学生模式'};
+    let seconds=480, base=480, running=false, timer=null;const display=document.getElementById('timeDisplay');function render(){const m=String(Math.floor(seconds/60)).padStart(2,'0');const s=String(seconds%60).padStart(2,'0');display.textContent=m+':'+s}
+    document.querySelectorAll('[data-min]').forEach(b=>b.onclick=()=>{base=seconds=Number(b.dataset.min)*60;render()});document.getElementById('startTimer').onclick=()=>{running=!running;if(running){timer=setInterval(()=>{if(seconds>0){seconds--;render()}else{running=false;clearInterval(timer)}},1000)}else clearInterval(timer)};document.getElementById('resetTimer').onclick=()=>{running=false;clearInterval(timer);seconds=base;render()};render();
+  </script>
+</body>
+</html>
